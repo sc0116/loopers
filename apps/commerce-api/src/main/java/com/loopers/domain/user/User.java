@@ -42,4 +42,19 @@ public class User extends BaseEntity {
 		this.birthDate = birthDate;
 		this.gender = gender;
 	}
+
+	public LoginId getLoginId() {
+		return loginId;
+	}
+
+	public Email getEmail() {
+		return email;
+	}
+	public BirthDate getBirthDate() {
+		return birthDate;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
 }

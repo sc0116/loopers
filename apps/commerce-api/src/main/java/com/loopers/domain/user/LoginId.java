@@ -28,6 +28,10 @@ public class LoginId {
 		this.loginId = loginId;
 	}
 
+	public String getLoginId() {
+		return loginId;
+	}
+
 	@Override
 	public boolean equals(final Object o) {
 		if (this == o) {

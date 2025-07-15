@@ -32,6 +32,10 @@ public class BirthDate {
 		this.birthDate = LocalDate.parse(birthDate);
 	}
 
+	public LocalDate getBirthDate() {
+		return birthDate;
+	}
+
 	@Override
 	public boolean equals(final Object o) {
 		if (this == o) {
