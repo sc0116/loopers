@@ -1,4 +1,4 @@
-package com.loopers.user.domain;
+package com.loopers.domain.user;
 
 public enum Gender {
 
