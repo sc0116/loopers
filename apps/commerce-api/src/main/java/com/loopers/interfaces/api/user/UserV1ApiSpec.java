@@ -15,4 +15,12 @@ public interface UserV1ApiSpec {
 		@Schema(name = "회원가입 요청")
 		UserV1Dto.UserRegisterRequest request
 	);
+
+	@Operation(
+		summary = "내 정보 조회"
+	)
+	ApiResponse<?> getMe(
+		@Schema(name = "X-USER-ID")
+		Long userId
+	);
 }

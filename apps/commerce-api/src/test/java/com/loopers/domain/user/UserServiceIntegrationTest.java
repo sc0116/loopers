@@ -83,7 +83,39 @@ class UserServiceIntegrationTest {
 		}
 	}
 
-	private void createUser(final String loginId, final String email, final String birthDate) {
+	@DisplayName("유저 정보 조회할 때, ")
+	@Nested
+	class Read {
+
+		@DisplayName("존재하지 않는 회원 ID가 주어지면, NULL을 반환한다.")
+		@Test
+		void returnNull_whenUserNonExists() {
+			final Long invalidUserId = -1L;
+
+			final UserInfo actual = sut.getUser(invalidUserId);
+
+			assertThat(actual).isNull();
+		}
+
+		@DisplayName("존재하는 회원 ID가 주어지면, 정보를 반환한다.")
+		@Test
+		void returnUserInfo_whenUserAlreadyExists() {
+			final User user = createUser("jjanggu", "jjanggu@gmail.com", "2025-01-01");
+
+			final UserInfo actual = sut.getUser(user.getId());
+
+			assertThat(actual).usingRecursiveComparison()
+				.isEqualTo(new UserInfo(
+					user.getId(),
+					new LoginId("jjanggu"),
+					new Email("jjanggu@gmail.com"),
+					new BirthDate("2025-01-01"),
+					Gender.MALE
+				));
+		}
+	}
+
+	private User createUser(final String loginId, final String email, final String birthDate) {
 		final User user = new User(
 			new LoginId(loginId),
 			new Email(email),
@@ -91,6 +123,6 @@ class UserServiceIntegrationTest {
 			Gender.MALE
 		);
 
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 }
