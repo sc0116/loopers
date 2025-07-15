@@ -17,7 +17,7 @@ public class UserV1Dto {
 		}
 	}
 
-	public record UserRegisterResponse(
+	public record UserResponse(
 		Long id,
 		String loginId,
 		String email,
@@ -25,8 +25,8 @@ public class UserV1Dto {
 		String gender
 	) {
 
-		public static UserRegisterResponse from(final UserResult userResult) {
-			return new UserRegisterResponse(
+		public static UserResponse from(final UserResult userResult) {
+			return new UserResponse(
 				userResult.id(),
 				userResult.loginId(),
 				userResult.email(),
