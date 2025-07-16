@@ -22,4 +22,11 @@ public class PointService {
 
 		return PointInfo.from(pointRepository.save(point));
 	}
+
+	@Transactional(readOnly = true)
+	public PointInfo getPoint(final Long userId) {
+		return pointRepository.findByUserId(userId)
+			.map(PointInfo::from)
+			.orElse(null);
+	}
 }

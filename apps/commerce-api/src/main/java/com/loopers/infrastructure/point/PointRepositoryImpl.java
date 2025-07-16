@@ -2,6 +2,7 @@ package com.loopers.infrastructure.point;
 
 import com.loopers.domain.point.Point;
 import com.loopers.domain.point.PointRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,5 +20,10 @@ public class PointRepositoryImpl implements PointRepository {
 	@Override
 	public boolean existsByUserId(final Long userId) {
 		return pointJpaRepository.existsByUserId(userId);
+	}
+
+	@Override
+	public Optional<Point> findByUserId(final Long userId) {
+		return pointJpaRepository.findByUserId(userId);
 	}
 }

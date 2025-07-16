@@ -64,6 +64,36 @@ class PointServiceIntegrationTest {
 		}
 	}
 
+	@DisplayName("포인트 정보 조회할 때, ")
+	@Nested
+	class Read {
+
+		@DisplayName("존재하지 않는 회원 ID가 주어지면, NULL을 반환한다.")
+		@Test
+		void returnNull_whenPointNonExists() {
+			final Long invalidUserId = -1L;
+
+			final PointInfo actual = sut.getPoint(invalidUserId);
+
+			assertThat(actual).isNull();
+		}
+
+		@DisplayName("존재하는 회원 ID가 주어지면, 정보를 반환한다.")
+		@Test
+		void returnPointInfo_whenPointAlreadyExists() {
+			final Point point = createPoint(1L, 1L);
+
+			final PointInfo actual = sut.getPoint(point.getUserId());
+
+			assertThat(actual).usingRecursiveComparison()
+				.isEqualTo(new PointInfo(
+					point.getId(),
+					1L,
+					1L
+				));
+		}
+	}
+
 	private Point createPoint(final Long userId, final Long amount) {
 		final Point point = new Point(userId, amount);
 
