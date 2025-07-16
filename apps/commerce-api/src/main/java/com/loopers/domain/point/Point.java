@@ -27,4 +27,12 @@ public class Point extends BaseEntity {
 		this.userId = userId;
 		this.amount = amount;
 	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public Long getAmount() {
+		return amount;
+	}
 }
