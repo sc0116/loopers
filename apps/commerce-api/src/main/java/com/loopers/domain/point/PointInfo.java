@@ -3,7 +3,7 @@ package com.loopers.domain.point;
 public record PointInfo(
 	Long id,
 	Long userId,
-	Long amount
+	Amount amount
 ) {
 
 	public static PointInfo from(final Point point) {
@@ -12,5 +12,9 @@ public record PointInfo(
 			point.getUserId(),
 			point.getAmount()
 		);
+	}
+
+	public Long fetchAmount() {
+		return amount.getAmount();
 	}
 }

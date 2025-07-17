@@ -89,13 +89,13 @@ class PointServiceIntegrationTest {
 				.isEqualTo(new PointInfo(
 					point.getId(),
 					1L,
-					1L
+					new Amount(1L)
 				));
 		}
 	}
 
 	private Point createPoint(final Long userId, final Long amount) {
-		final Point point = new Point(userId, amount);
+		final Point point = new Point(userId, new Amount(amount));
 
 		return pointRepository.save(point);
 	}

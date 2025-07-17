@@ -1,8 +1,7 @@
 package com.loopers.domain.point;
 
 import com.loopers.domain.BaseEntity;
-import com.loopers.support.error.CoreException;
-import com.loopers.support.error.ErrorType;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -12,27 +11,28 @@ public class Point extends BaseEntity {
 
 	private Long userId;
 
-	private Long amount;
+	@Embedded
+	private Amount amount;
 
 	protected Point() {}
 
 	public Point(
 		final Long userId,
-		final Long amount
+		final Amount amount
 	) {
-		if (amount < 1) {
-			throw new CoreException(ErrorType.BAD_REQUEST, "금액은 양수여야 합니다.");
-		}
-
 		this.userId = userId;
 		this.amount = amount;
+	}
+
+	public void charge(final Long amount) {
+		this.amount.charge(amount);
 	}
 
 	public Long getUserId() {
 		return userId;
 	}
 
-	public Long getAmount() {
+	public Amount getAmount() {
 		return amount;
 	}
 }

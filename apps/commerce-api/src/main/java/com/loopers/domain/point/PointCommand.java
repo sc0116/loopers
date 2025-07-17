@@ -8,7 +8,7 @@ public class PointCommand {
 	) {
 
 		public Point toPoint() {
-			return new Point(userId, amount);
+			return new Point(userId, new Amount(amount));
 		}
 	}
 }

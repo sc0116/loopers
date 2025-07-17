@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.loopers.domain.point.Amount;
 import com.loopers.domain.point.Point;
 import com.loopers.infrastructure.point.PointJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
@@ -86,7 +87,7 @@ public class PointV1ApiE2ETest {
 	}
 
 	private Point createPoint(final Long userId, final Long amount) {
-		final Point point = new Point(userId, amount);
+		final Point point = new Point(userId, new Amount(amount));
 
 		return pointJpaRepository.save(point);
 	}
