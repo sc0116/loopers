@@ -5,20 +5,20 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ServerWebInputException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @Slf4j
@@ -37,6 +37,13 @@ public class ApiControllerAdvice {
         String message = String.format("요청 파라미터 '%s' (타입: %s)의 값 '%s'이(가) 잘못되었습니다.", name, type, value);
         return failureResponse(ErrorType.BAD_REQUEST, message);
     }
+
+	@ExceptionHandler
+	public ResponseEntity<ApiResponse<?>> handleBadRequest(MissingRequestHeaderException e) {
+		String name = e.getHeaderName();
+		String message = String.format("필수 헤더 '%s' 가 누락되었습니다.", name);
+		return failureResponse(ErrorType.BAD_REQUEST, message);
+	}
 
     @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleBadRequest(MissingServletRequestParameterException e) {
