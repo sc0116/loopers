@@ -8,6 +8,7 @@ import com.loopers.domain.point.Amount;
 import com.loopers.domain.point.Point;
 import com.loopers.infrastructure.point.PointJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
+import com.loopers.interfaces.api.point.PointV1Dto.PointChargeRequest;
 import com.loopers.utils.DatabaseCleanUp;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -46,6 +47,46 @@ public class PointV1ApiE2ETest {
 	@AfterEach
 	void tearDown() {
 		databaseCleanUp.truncateAllTables();
+	}
+
+	@DisplayName("POST /api/v1/points/charge")
+	@Nested
+	class Charge {
+
+		@DisplayName("포인트 1000원을 충전하면, 충전된 금액을 응답으로 반환한다.")
+		@Test
+		void returnsPointInfo_whenChargePoint() {
+			final Point point = createPoint(1L, 0L);
+			final HttpHeaders headers = new HttpHeaders();
+			headers.set("X-USER-ID", point.getUserId().toString());
+			final PointV1Dto.PointChargeRequest request = new PointChargeRequest(1000L);
+			final ParameterizedTypeReference<ApiResponse<PointV1Dto.PointResponse>> responseType = new ParameterizedTypeReference<>() {};
+
+			final ResponseEntity<ApiResponse<PointV1Dto.PointResponse>> actual =
+				testRestTemplate.exchange("/api/v1/points/charge", HttpMethod.POST, new HttpEntity<>(request, headers), responseType);
+
+			assertAll(
+				() -> assertThat(actual.getStatusCode().is2xxSuccessful()).isTrue(),
+				() -> assertThat(actual.getBody().data().amount()).isEqualTo(1000L)
+			);
+		}
+
+		@DisplayName("존재하지 않는 회원의 포인트를 충전하면, NOT_FOUND 예외가 반환된다.")
+		@Test
+		void throwsNotFoundException_whenUserDoesNotExist() {
+			final HttpHeaders headers = new HttpHeaders();
+			headers.set("X-USER-ID", "-1");
+			final PointV1Dto.PointChargeRequest request = new PointChargeRequest(1000L);
+			final ParameterizedTypeReference<ApiResponse<PointV1Dto.PointResponse>> responseType = new ParameterizedTypeReference<>() {};
+
+			final ResponseEntity<ApiResponse<PointV1Dto.PointResponse>> actual =
+				testRestTemplate.exchange("/api/v1/points/charge", HttpMethod.POST, new HttpEntity<>(request, headers), responseType);
+
+			assertAll(
+				() -> assertTrue(actual.getStatusCode().is4xxClientError()),
+				() -> assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND)
+			);
+		}
 	}
 
 	@DisplayName("GET /api/v1/points")

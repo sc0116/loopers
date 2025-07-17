@@ -11,4 +11,10 @@ public class PointCommand {
 			return new Point(userId, new Amount(amount));
 		}
 	}
+
+	public record Charge(
+		Long userId,
+		Long amount
+	) {
+	}
 }

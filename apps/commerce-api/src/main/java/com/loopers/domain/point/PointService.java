@@ -29,4 +29,14 @@ public class PointService {
 			.map(PointInfo::from)
 			.orElse(null);
 	}
+
+	@Transactional
+	public PointInfo update(final PointCommand.Charge command) {
+		final Point point = pointRepository.findByUserId(command.userId())
+			.orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 회원입니다."));
+
+		point.charge(command.amount());
+
+		return PointInfo.from(point);
+	}
 }
