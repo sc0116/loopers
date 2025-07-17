@@ -89,13 +89,31 @@ class PointServiceIntegrationTest {
 				.isEqualTo(new PointInfo(
 					point.getId(),
 					1L,
-					1L
+					new Amount(1L)
 				));
 		}
 	}
 
+	@DisplayName("포인트 충전할 때, ")
+	@Nested
+	class Charge {
+
+		@DisplayName("존재하지 않는 회원 ID가 주어지면, NOT_FOUND 예외가 반환된다.")
+		@Test
+		void throwsNotFoundException_whenUserDoesNotExist() {
+			final Long invalidUserId = -1L;
+
+			final CoreException actual = assertThrows(CoreException.class, () -> {
+				sut.update(new PointCommand.Charge(invalidUserId, 1L));
+			});
+
+			assertThat(actual).usingRecursiveComparison()
+				.isEqualTo(new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 회원입니다."));
+		}
+	}
+
 	private Point createPoint(final Long userId, final Long amount) {
-		final Point point = new Point(userId, amount);
+		final Point point = new Point(userId, new Amount(amount));
 
 		return pointRepository.save(point);
 	}

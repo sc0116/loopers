@@ -22,4 +22,10 @@ public class PointFacade {
 
 		return PointResult.from(pointInfo);
 	}
+
+	public PointResult charge(final PointCriteria.Charge criteria) {
+		final PointInfo pointInfo = pointService.update(criteria.toCommand());
+
+		return PointResult.from(pointInfo);
+	}
 }

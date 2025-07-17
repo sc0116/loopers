@@ -9,6 +9,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public interface PointV1ApiSpec {
 
 	@Operation(
+		summary = "포인트 충전"
+	)
+	ApiResponse<?> chargePoint(
+		@Schema(name = "X-USER-ID")
+		Long userId,
+		@Schema(name = "충전 금액 요청")
+		PointV1Dto.PointChargeRequest request
+	);
+
+	@Operation(
 		summary = "포인트 조회"
 	)
 	ApiResponse<?> getPoint(

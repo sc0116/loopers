@@ -10,7 +10,7 @@ public record PointResult(
 	public static PointResult from(final PointInfo pointInfo) {
 		return new PointResult(
 			pointInfo.id(),
-			pointInfo.amount()
+			pointInfo.fetchAmount()
 		);
 	}
 }
