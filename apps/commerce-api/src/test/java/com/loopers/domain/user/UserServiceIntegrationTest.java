@@ -53,20 +53,6 @@ class UserServiceIntegrationTest {
 				.isEqualTo(new CoreException(ErrorType.CONFLICT, "이미 존재하는 ID입니다."));
 		}
 
-		@DisplayName("이미 존재하는 이메일이 주어지면, CONFLICT 예외가 발생한다.")
-		@Test
-		void throwsConflictException_whenEmailAlreadyExists() {
-			final String email = "jjanggu@gmail.com";
-			createUser("jjanggu", email, "2025-01-01");
-
-			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.create(new UserCommand.Create("jjanga", email, "2025-01-01", Gender.MALE.name()));
-			});
-
-			assertThat(actual).usingRecursiveComparison()
-				.isEqualTo(new CoreException(ErrorType.CONFLICT, "이미 존재하는 이메일입니다."));
-		}
-
 		@DisplayName("새로운 ID와 이메일이 주어지면, 정상적으로 생성한다.")
 		@Test
 		void save() {

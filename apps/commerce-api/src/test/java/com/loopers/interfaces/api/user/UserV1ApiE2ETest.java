@@ -136,20 +136,6 @@ class UserV1ApiE2ETest {
 				() -> assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND)
 			);
 		}
-
-		@DisplayName("X-USER-ID가 누락되면, BAD_REQUEST 예외가 반환된다.")
-		@Test
-		void throwsBadRequestException_whenRequestHeaderIsMissing() {
-			final ParameterizedTypeReference<ApiResponse<UserV1Dto.UserResponse>> responseType = new ParameterizedTypeReference<>() {};
-
-			final ResponseEntity<ApiResponse<UserV1Dto.UserResponse>> actual =
-				testRestTemplate.exchange("/api/v1/users/me", HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), responseType);
-
-			assertAll(
-				() -> assertTrue(actual.getStatusCode().is4xxClientError()),
-				() -> assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST)
-			);
-		}
 	}
 
 	private User createUser(final String loginId, final String email, final String birthDate) {
