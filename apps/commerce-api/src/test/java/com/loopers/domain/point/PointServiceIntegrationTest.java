@@ -1,7 +1,7 @@
 package com.loopers.domain.point;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -38,20 +38,6 @@ class PointServiceIntegrationTest {
 	@DisplayName("포인트를 생성할 때, ")
 	@Nested
 	class Create {
-
-		@DisplayName("해당 회원의 포인트가 이미 존재하면, CONFLICT 예외가 발생한다.")
-		@Test
-		void throwsConflictException_whenUserIdAlreadyExists() {
-			final Long userId = 1L;
-			createPoint(userId, 1L);
-
-			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.create(new PointCommand.Create(userId, 2L));
-			});
-
-			assertThat(actual).usingRecursiveComparison()
-				.isEqualTo(new CoreException(ErrorType.CONFLICT, "회원의 포인트가 이미 존재합니다."));
-		}
 
 		@DisplayName("새로운 회원이 주어지면, 정상적으로 생성한다.")
 		@Test

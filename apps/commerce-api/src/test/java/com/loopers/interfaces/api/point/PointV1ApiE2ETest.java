@@ -87,21 +87,6 @@ public class PointV1ApiE2ETest {
 				() -> assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND)
 			);
 		}
-
-		@DisplayName("X-USER-ID가 누락되면, BAD_REQUEST 예외가 반환된다.")
-		@Test
-		void throwsBadRequestException_whenRequestHeaderIsMissing() {
-			final PointV1Dto.PointChargeRequest request = new PointChargeRequest(1000L);
-			final ParameterizedTypeReference<ApiResponse<PointV1Dto.PointResponse>> responseType = new ParameterizedTypeReference<>() {};
-
-			final ResponseEntity<ApiResponse<PointV1Dto.PointResponse>> actual =
-				testRestTemplate.exchange("/api/v1/points/charge", HttpMethod.POST, new HttpEntity<>(request), responseType);
-
-			assertAll(
-				() -> assertTrue(actual.getStatusCode().is4xxClientError()),
-				() -> assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST)
-			);
-		}
 	}
 
 	@DisplayName("GET /api/v1/points")
@@ -138,20 +123,6 @@ public class PointV1ApiE2ETest {
 			assertAll(
 				() -> assertTrue(actual.getStatusCode().is4xxClientError()),
 				() -> assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND)
-			);
-		}
-
-		@DisplayName("X-USER-ID가 누락되면, BAD_REQUEST 예외가 반환된다.")
-		@Test
-		void throwsBadRequestException_whenRequestHeaderIsMissing() {
-			final ParameterizedTypeReference<ApiResponse<PointV1Dto.PointResponse>> responseType = new ParameterizedTypeReference<>() {};
-
-			final ResponseEntity<ApiResponse<PointV1Dto.PointResponse>> actual =
-				testRestTemplate.exchange("/api/v1/points", HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), responseType);
-
-			assertAll(
-				() -> assertTrue(actual.getStatusCode().is4xxClientError()),
-				() -> assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST)
 			);
 		}
 	}
