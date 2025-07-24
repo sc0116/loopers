@@ -13,7 +13,7 @@ public class UserService {
 	private final UserRepository userRepository;
 
 	@Transactional
-	public UserInfo create(final UserCommand.Create command) {
+	public UserInfo register(final UserCommand.Register command) {
 		final User user = new User(
 			new LoginId(command.loginId()),
 			new Email(command.email()),

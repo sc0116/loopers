@@ -90,7 +90,7 @@ class PointServiceIntegrationTest {
 			final Long invalidUserId = -1L;
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.update(new PointCommand.Charge(invalidUserId, 1L));
+				sut.charge(new PointCommand.Charge(invalidUserId, 1L));
 			});
 
 			assertThat(actual).usingRecursiveComparison()

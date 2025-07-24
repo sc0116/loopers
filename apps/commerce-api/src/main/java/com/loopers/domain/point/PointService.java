@@ -31,7 +31,7 @@ public class PointService {
 	}
 
 	@Transactional
-	public PointInfo update(final PointCommand.Charge command) {
+	public PointInfo charge(final PointCommand.Charge command) {
 		final Point point = pointRepository.findByUserId(command.userId())
 			.orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 회원입니다."));
 

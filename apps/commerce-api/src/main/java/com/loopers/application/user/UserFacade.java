@@ -17,7 +17,7 @@ public class UserFacade {
 	private final PointService pointService;
 
     public UserResult register(final UserCriteria.Register criteria) {
-		final UserResult userResult = UserResult.from(userService.create(criteria.toCommand()));
+		final UserResult userResult = UserResult.from(userService.register(criteria.toCommand()));
 
 		pointService.create(new PointCommand.Create(userResult.id(), 0L));
 

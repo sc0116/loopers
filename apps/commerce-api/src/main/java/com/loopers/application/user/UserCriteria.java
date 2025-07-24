@@ -10,8 +10,8 @@ public class UserCriteria {
 		String birthDate,
 		String gender
 	) {
-		public UserCommand.Create toCommand() {
-			return new UserCommand.Create(loginId, email, birthDate, gender);
+		public UserCommand.Register toCommand() {
+			return new UserCommand.Register(loginId, email, birthDate, gender);
 		}
 	}
 }

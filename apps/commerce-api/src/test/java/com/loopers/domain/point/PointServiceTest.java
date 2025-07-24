@@ -71,7 +71,7 @@ class PointServiceTest {
 				.willReturn(Optional.empty());
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.update(new PointCommand.Charge(-1L, 1L));
+				sut.charge(new PointCommand.Charge(-1L, 1L));
 			});
 
 			assertThat(actual).usingRecursiveComparison()

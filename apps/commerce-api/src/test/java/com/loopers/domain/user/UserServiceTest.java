@@ -36,7 +36,7 @@ public class UserServiceTest {
 				.willReturn(true);
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.create(new UserCommand.Create("jjanggu", "jjanggu@naver.com", "2025-01-01", Gender.MALE.name()));
+				sut.register(new UserCommand.Register("jjanggu", "jjanggu@naver.com", "2025-01-01", Gender.MALE.name()));
 			});
 
 			assertThat(actual).usingRecursiveComparison()
@@ -52,7 +52,7 @@ public class UserServiceTest {
 				.willReturn(true);
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.create(new UserCommand.Create("jjanggu", "jjanggu@naver.com", "2025-01-01", Gender.MALE.name()));
+				sut.register(new UserCommand.Register("jjanggu", "jjanggu@naver.com", "2025-01-01", Gender.MALE.name()));
 			});
 
 			assertThat(actual).usingRecursiveComparison()

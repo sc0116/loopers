@@ -46,7 +46,7 @@ class UserServiceIntegrationTest {
 			createUser(loginId, "jjanggu@gmail.com", "2025-01-01");
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.create(new UserCommand.Create(loginId, "jjanggu@naver.com", "2025-01-01", Gender.MALE.name()));
+				sut.register(new UserCommand.Register(loginId, "jjanggu@naver.com", "2025-01-01", Gender.MALE.name()));
 			});
 
 			assertThat(actual).usingRecursiveComparison()
@@ -56,14 +56,14 @@ class UserServiceIntegrationTest {
 		@DisplayName("새로운 ID와 이메일이 주어지면, 정상적으로 생성한다.")
 		@Test
 		void save() {
-			final UserCommand.Create command = new UserCommand.Create(
+			final UserCommand.Register command = new UserCommand.Register(
 				"jjanggu",
 				"jjanggu@gmail.com",
 				"2025-01-01",
 				Gender.MALE.name()
 			);
 
-			sut.create(command);
+			sut.register(command);
 
 			verify(userRepository, times(1)).save(any());
 		}
