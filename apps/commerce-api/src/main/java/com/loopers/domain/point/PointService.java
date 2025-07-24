@@ -24,10 +24,10 @@ public class PointService {
 	}
 
 	@Transactional(readOnly = true)
-	public PointInfo getPoint(final Long userId) {
+	public PointInfo get(final Long userId) {
 		return pointRepository.findByUserId(userId)
 			.map(PointInfo::from)
-			.orElse(null);
+			.orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND, "회원의 포인트가 존재하지 않습니다."));
 	}
 
 	@Transactional

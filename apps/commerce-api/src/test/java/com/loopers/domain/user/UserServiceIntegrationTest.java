@@ -73,14 +73,17 @@ class UserServiceIntegrationTest {
 	@Nested
 	class Read {
 
-		@DisplayName("존재하지 않는 회원 ID가 주어지면, NULL을 반환한다.")
+		@DisplayName("존재하지 않는 회원 ID가 주어지면, NOT_FOUND 예외를 반환한다.")
 		@Test
-		void returnNull_whenUserNonExists() {
+		void returnThrows_whenUserNonExists() {
 			final Long invalidUserId = -1L;
 
-			final UserInfo actual = sut.getUser(invalidUserId);
+			final CoreException actual = assertThrows(CoreException.class, () -> {
+				sut.get(invalidUserId);
+			});
 
-			assertThat(actual).isNull();
+			assertThat(actual).usingRecursiveComparison()
+				.isEqualTo(new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 회원입니다."));
 		}
 
 		@DisplayName("존재하는 회원 ID가 주어지면, 정보를 반환한다.")
@@ -88,7 +91,7 @@ class UserServiceIntegrationTest {
 		void returnUserInfo_whenUserAlreadyExists() {
 			final User user = createUser("jjanggu", "jjanggu@gmail.com", "2025-01-01");
 
-			final UserInfo actual = sut.getUser(user.getId());
+			final UserInfo actual = sut.get(user.getId());
 
 			assertThat(actual).usingRecursiveComparison()
 				.isEqualTo(new UserInfo(

@@ -64,15 +64,18 @@ public class UserServiceTest {
 	@Nested
 	class Read {
 
-		@DisplayName("존재하지 않는 회원 ID가 주어지면, NULL을 반환한다.")
+		@DisplayName("존재하지 않는 회원 ID가 주어지면, NOT_FOUND 예외를 반환한다.")
 		@Test
-		void returnNull_whenUserNonExists() {
+		void returnThrows_whenUserNonExists() {
 			given(userRepository.findById(anyLong()))
 				.willReturn(Optional.empty());
 
-			final UserInfo actual = sut.getUser(-1L);
+			final CoreException actual = assertThrows(CoreException.class, () -> {
+				sut.get(-1L);
+			});
 
-			assertThat(actual).isNull();
+			assertThat(actual).usingRecursiveComparison()
+				.isEqualTo(new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 회원입니다."));
 		}
 	}
 }

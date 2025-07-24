@@ -33,9 +33,9 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public UserInfo getUser(final Long userId) {
+	public UserInfo get(final Long userId) {
 		return userRepository.findById(userId)
 			.map(UserInfo::from)
-			.orElse(null);
+			.orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 회원입니다."));
 	}
 }

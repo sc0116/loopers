@@ -54,14 +54,17 @@ class PointServiceIntegrationTest {
 	@Nested
 	class Read {
 
-		@DisplayName("존재하지 않는 회원 ID가 주어지면, NULL을 반환한다.")
+		@DisplayName("존재하지 않는 회원 ID가 주어지면, NOT_FOUND 예외를 반환한다.")
 		@Test
-		void returnNull_whenPointNonExists() {
+		void returnThrows_whenPointNonExists() {
 			final Long invalidUserId = -1L;
 
-			final PointInfo actual = sut.getPoint(invalidUserId);
+			final CoreException actual = assertThrows(CoreException.class, () -> {
+				sut.get(invalidUserId);
+			});
 
-			assertThat(actual).isNull();
+			assertThat(actual).usingRecursiveComparison()
+				.isEqualTo(new CoreException(ErrorType.NOT_FOUND, "회원의 포인트가 존재하지 않습니다."));
 		}
 
 		@DisplayName("존재하는 회원 ID가 주어지면, 정보를 반환한다.")
@@ -69,7 +72,7 @@ class PointServiceIntegrationTest {
 		void returnPointInfo_whenPointAlreadyExists() {
 			final Point point = createPoint(1L, 1L);
 
-			final PointInfo actual = sut.getPoint(point.getUserId());
+			final PointInfo actual = sut.get(point.getUserId());
 
 			assertThat(actual).usingRecursiveComparison()
 				.isEqualTo(new PointInfo(
