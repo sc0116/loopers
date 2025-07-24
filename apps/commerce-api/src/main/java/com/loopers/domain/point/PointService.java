@@ -14,7 +14,7 @@ public class PointService {
 
 	@Transactional
 	public PointInfo create(final PointCommand.Create command) {
-		final Point point = command.toPoint();
+		final Point point = new Point(command.userId(), new Amount(command.amount()));
 
 		if (pointRepository.existsByUserId(point.getUserId())) {
 			throw new CoreException(ErrorType.CONFLICT, "회원의 포인트가 이미 존재합니다.");

@@ -14,7 +14,12 @@ public class UserService {
 
 	@Transactional
 	public UserInfo create(final UserCommand.Create command) {
-		final User user = command.toUser();
+		final User user = new User(
+			new LoginId(command.loginId()),
+			new Email(command.email()),
+			new BirthDate(command.birthDate()),
+			Gender.from(command.gender())
+		);
 
 		if (userRepository.existsBy(user.getLoginId())) {
 			throw new CoreException(ErrorType.CONFLICT, "이미 존재하는 ID입니다.");
