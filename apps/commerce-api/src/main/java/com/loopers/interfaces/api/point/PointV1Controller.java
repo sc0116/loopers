@@ -21,7 +21,7 @@ public class PointV1Controller implements PointV1ApiSpec {
 
 	@PostMapping("/charge")
 	@Override
-	public ApiResponse<?> chargePoint(
+	public ApiResponse<PointResponse> chargePoint(
 		@RequestHeader("X-USER-ID") final Long userId,
 		@RequestBody final PointV1Dto.PointChargeRequest request
 	) {
@@ -32,7 +32,7 @@ public class PointV1Controller implements PointV1ApiSpec {
 
 	@GetMapping
 	@Override
-	public ApiResponse<?> getPoint(
+	public ApiResponse<PointResponse> getPoint(
 		@RequestHeader("X-USER-ID") final Long userId
 	) {
 		final PointResult pointResult = pointFacade.getPoint(userId);

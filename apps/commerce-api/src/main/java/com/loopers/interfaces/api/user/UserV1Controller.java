@@ -20,7 +20,7 @@ public class UserV1Controller implements UserV1ApiSpec {
 
     @PostMapping
     @Override
-    public ApiResponse<?> register(
+    public ApiResponse<UserResponse> register(
         @RequestBody final UserV1Dto.UserRegisterRequest request
     ) {
 		final UserResponse response = UserResponse.from(userFacade.register(request.toCriteria()));
@@ -30,7 +30,7 @@ public class UserV1Controller implements UserV1ApiSpec {
 
 	@GetMapping("/me")
 	@Override
-	public ApiResponse<?> getMe(
+	public ApiResponse<UserResponse> getMe(
 		@RequestHeader("X-USER-ID") final Long userId
 	) {
 		final UserResponse response = UserResponse.from(userFacade.getUser(userId));
