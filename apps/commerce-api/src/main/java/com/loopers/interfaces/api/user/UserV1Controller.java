@@ -2,7 +2,7 @@ package com.loopers.interfaces.api.user;
 
 import com.loopers.application.user.UserFacade;
 import com.loopers.interfaces.api.ApiResponse;
-import com.loopers.interfaces.api.user.UserV1Dto.UserResponse;
+import com.loopers.interfaces.api.user.UserDto.V1.GetResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,20 +20,20 @@ public class UserV1Controller implements UserV1ApiSpec {
 
     @PostMapping
     @Override
-    public ApiResponse<?> register(
-        @RequestBody final UserV1Dto.UserRegisterRequest request
+    public ApiResponse<GetResponse> register(
+        @RequestBody final UserDto.V1.RegisterRequest request
     ) {
-		final UserResponse response = UserResponse.from(userFacade.register(request.toCriteria()));
+		final GetResponse response = GetResponse.from(userFacade.register(request.toCriteria()));
 
 		return ApiResponse.success(response);
     }
 
 	@GetMapping("/me")
 	@Override
-	public ApiResponse<?> getMe(
+	public ApiResponse<GetResponse> getMe(
 		@RequestHeader("X-USER-ID") final Long userId
 	) {
-		final UserResponse response = UserResponse.from(userFacade.getUser(userId));
+		final GetResponse response = GetResponse.from(userFacade.getUser(userId));
 
 		return ApiResponse.success(response);
 	}

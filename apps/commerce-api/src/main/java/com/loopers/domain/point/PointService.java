@@ -14,7 +14,7 @@ public class PointService {
 
 	@Transactional
 	public PointInfo create(final PointCommand.Create command) {
-		final Point point = command.toPoint();
+		final Point point = new Point(command.userId(), new Amount(command.amount()));
 
 		if (pointRepository.existsByUserId(point.getUserId())) {
 			throw new CoreException(ErrorType.CONFLICT, "회원의 포인트가 이미 존재합니다.");
@@ -24,14 +24,14 @@ public class PointService {
 	}
 
 	@Transactional(readOnly = true)
-	public PointInfo getPoint(final Long userId) {
+	public PointInfo get(final Long userId) {
 		return pointRepository.findByUserId(userId)
 			.map(PointInfo::from)
-			.orElse(null);
+			.orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND, "회원의 포인트가 존재하지 않습니다."));
 	}
 
 	@Transactional
-	public PointInfo update(final PointCommand.Charge command) {
+	public PointInfo charge(final PointCommand.Charge command) {
 		final Point point = pointRepository.findByUserId(command.userId())
 			.orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 회원입니다."));
 

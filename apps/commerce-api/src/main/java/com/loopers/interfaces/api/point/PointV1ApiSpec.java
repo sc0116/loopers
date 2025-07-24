@@ -11,17 +11,17 @@ public interface PointV1ApiSpec {
 	@Operation(
 		summary = "포인트 충전"
 	)
-	ApiResponse<?> chargePoint(
+	ApiResponse<PointDto.V1.GetResponse> chargePoint(
 		@Schema(name = "X-USER-ID")
 		Long userId,
 		@Schema(name = "충전 금액 요청")
-		PointV1Dto.PointChargeRequest request
+		PointDto.V1.ChargeRequest request
 	);
 
 	@Operation(
 		summary = "포인트 조회"
 	)
-	ApiResponse<?> getPoint(
+	ApiResponse<PointDto.V1.GetResponse> getPoint(
 		@Schema(name = "X-USER-ID")
 		Long userId
 	);

@@ -6,10 +6,6 @@ public class PointCommand {
 		Long userId,
 		Long amount
 	) {
-
-		public Point toPoint() {
-			return new Point(userId, new Amount(amount));
-		}
 	}
 
 	public record Charge(

@@ -13,8 +13,13 @@ public class UserService {
 	private final UserRepository userRepository;
 
 	@Transactional
-	public UserInfo create(final UserCommand.Create command) {
-		final User user = command.toUser();
+	public UserInfo register(final UserCommand.Register command) {
+		final User user = new User(
+			new LoginId(command.loginId()),
+			new Email(command.email()),
+			new BirthDate(command.birthDate()),
+			Gender.from(command.gender())
+		);
 
 		if (userRepository.existsBy(user.getLoginId())) {
 			throw new CoreException(ErrorType.CONFLICT, "이미 존재하는 ID입니다.");
@@ -28,9 +33,9 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public UserInfo getUser(final Long userId) {
+	public UserInfo get(final Long userId) {
 		return userRepository.findById(userId)
 			.map(UserInfo::from)
-			.orElse(null);
+			.orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 회원입니다."));
 	}
 }
