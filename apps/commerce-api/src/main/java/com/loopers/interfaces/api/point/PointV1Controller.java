@@ -3,7 +3,6 @@ package com.loopers.interfaces.api.point;
 import com.loopers.application.point.PointFacade;
 import com.loopers.application.point.PointResult;
 import com.loopers.interfaces.api.ApiResponse;
-import com.loopers.interfaces.api.point.PointV1Dto.PointResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,22 +20,22 @@ public class PointV1Controller implements PointV1ApiSpec {
 
 	@PostMapping("/charge")
 	@Override
-	public ApiResponse<PointResponse> chargePoint(
+	public ApiResponse<PointDto.V1.GetResponse> chargePoint(
 		@RequestHeader("X-USER-ID") final Long userId,
-		@RequestBody final PointV1Dto.PointChargeRequest request
+		@RequestBody final PointDto.V1.ChargeRequest request
 	) {
 		final PointResult pointResult = pointFacade.charge(request.toCriteria(userId));
 
-		return ApiResponse.success(PointResponse.from(pointResult));
+		return ApiResponse.success(PointDto.V1.GetResponse.from(pointResult));
 	}
 
 	@GetMapping
 	@Override
-	public ApiResponse<PointResponse> getPoint(
+	public ApiResponse<PointDto.V1.GetResponse> getPoint(
 		@RequestHeader("X-USER-ID") final Long userId
 	) {
 		final PointResult pointResult = pointFacade.getPoint(userId);
 
-		return ApiResponse.success(PointResponse.from(pointResult));
+		return ApiResponse.success(PointDto.V1.GetResponse.from(pointResult));
 	}
 }

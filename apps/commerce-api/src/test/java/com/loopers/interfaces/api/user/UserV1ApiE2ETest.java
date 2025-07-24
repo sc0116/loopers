@@ -1,6 +1,6 @@
 package com.loopers.interfaces.api.user;
 
-import static com.loopers.interfaces.api.user.UserV1Dto.UserResponse;
+import static com.loopers.interfaces.api.user.UserDto.V1.GetResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,7 +12,7 @@ import com.loopers.domain.user.LoginId;
 import com.loopers.domain.user.User;
 import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
-import com.loopers.interfaces.api.user.UserV1Dto.UserRegisterRequest;
+import com.loopers.interfaces.api.user.UserDto.V1.RegisterRequest;
 import com.loopers.utils.DatabaseCleanUp;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -61,15 +61,15 @@ class UserV1ApiE2ETest {
 		@DisplayName("정상적으로 회원 가입하면, 유저 정보를 반환한다.")
 		@Test
 		void returnsUserInfo_whenRegister() {
-			final UserRegisterRequest request = new UserRegisterRequest(
+			final RegisterRequest request = new RegisterRequest(
 				"jjanggu",
 				"jjanggu@gmail.com",
 				"2025-01-01",
 				Gender.MALE.name()
 			);
-			final ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ParameterizedTypeReference<ApiResponse<GetResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<UserResponse>> actual =
+			final ResponseEntity<ApiResponse<GetResponse>> actual =
 				testRestTemplate.exchange("/api/v1/users", HttpMethod.POST, new HttpEntity<>(request), responseType);
 
 			assertAll(
@@ -82,15 +82,15 @@ class UserV1ApiE2ETest {
 		@NullAndEmptySource
 		@ParameterizedTest
 		void throwsBadRequestException_whenGenderIsNullOrBlank(final String gender) {
-			final UserRegisterRequest request = new UserRegisterRequest(
+			final RegisterRequest request = new RegisterRequest(
 				"jjanggu",
 				"jjanggu@gmail.com",
 				"2025-01-01",
 				gender
 			);
-			final ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ParameterizedTypeReference<ApiResponse<GetResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<UserResponse>> actual =
+			final ResponseEntity<ApiResponse<GetResponse>> actual =
 				testRestTemplate.exchange("/api/v1/users", HttpMethod.POST, new HttpEntity<>(request), responseType);
 
 			assertAll(
@@ -110,9 +110,9 @@ class UserV1ApiE2ETest {
 			final User user = createUser("jjanggu", "jjanggu@gmail.com", "2025-01-01");
 			final HttpHeaders headers = new HttpHeaders();
 			headers.set("X-USER-ID", user.getId().toString());
-			final ParameterizedTypeReference<ApiResponse<UserV1Dto.UserResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ParameterizedTypeReference<ApiResponse<GetResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<UserV1Dto.UserResponse>> actual =
+			final ResponseEntity<ApiResponse<GetResponse>> actual =
 				testRestTemplate.exchange("/api/v1/users/me", HttpMethod.GET, new HttpEntity<>(headers), responseType);
 
 			assertAll(
@@ -126,9 +126,9 @@ class UserV1ApiE2ETest {
 		void throwsNotFoundException_whenUserNonExists() {
 			final HttpHeaders headers = new HttpHeaders();
 			headers.set("X-USER-ID", "-1");
-			final ParameterizedTypeReference<ApiResponse<UserV1Dto.UserResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ParameterizedTypeReference<ApiResponse<GetResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<UserV1Dto.UserResponse>> actual =
+			final ResponseEntity<ApiResponse<GetResponse>> actual =
 				testRestTemplate.exchange("/api/v1/users/me", HttpMethod.GET, new HttpEntity<>(headers), responseType);
 
 			assertAll(

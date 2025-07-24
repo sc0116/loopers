@@ -8,7 +8,7 @@ import com.loopers.domain.point.Amount;
 import com.loopers.domain.point.Point;
 import com.loopers.infrastructure.point.PointJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
-import com.loopers.interfaces.api.point.PointV1Dto.PointChargeRequest;
+import com.loopers.interfaces.api.point.PointDto.V1.ChargeRequest;
 import com.loopers.utils.DatabaseCleanUp;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -59,10 +59,10 @@ public class PointV1ApiE2ETest {
 			final Point point = createPoint(1L, 0L);
 			final HttpHeaders headers = new HttpHeaders();
 			headers.set("X-USER-ID", point.getUserId().toString());
-			final PointV1Dto.PointChargeRequest request = new PointChargeRequest(1000L);
-			final ParameterizedTypeReference<ApiResponse<PointV1Dto.PointResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final PointDto.V1.ChargeRequest request = new ChargeRequest(1000L);
+			final ParameterizedTypeReference<ApiResponse<PointDto.V1.GetResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<PointV1Dto.PointResponse>> actual =
+			final ResponseEntity<ApiResponse<PointDto.V1.GetResponse>> actual =
 				testRestTemplate.exchange("/api/v1/points/charge", HttpMethod.POST, new HttpEntity<>(request, headers), responseType);
 
 			assertAll(
@@ -76,10 +76,10 @@ public class PointV1ApiE2ETest {
 		void throwsNotFoundException_whenUserDoesNotExist() {
 			final HttpHeaders headers = new HttpHeaders();
 			headers.set("X-USER-ID", "-1");
-			final PointV1Dto.PointChargeRequest request = new PointChargeRequest(1000L);
-			final ParameterizedTypeReference<ApiResponse<PointV1Dto.PointResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final PointDto.V1.ChargeRequest request = new ChargeRequest(1000L);
+			final ParameterizedTypeReference<ApiResponse<PointDto.V1.GetResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<PointV1Dto.PointResponse>> actual =
+			final ResponseEntity<ApiResponse<PointDto.V1.GetResponse>> actual =
 				testRestTemplate.exchange("/api/v1/points/charge", HttpMethod.POST, new HttpEntity<>(request, headers), responseType);
 
 			assertAll(
@@ -99,9 +99,9 @@ public class PointV1ApiE2ETest {
 			final Point point = createPoint(1L, 1L);
 			final HttpHeaders headers = new HttpHeaders();
 			headers.set("X-USER-ID", point.getUserId().toString());
-			final ParameterizedTypeReference<ApiResponse<PointV1Dto.PointResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ParameterizedTypeReference<ApiResponse<PointDto.V1.GetResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<PointV1Dto.PointResponse>> actual =
+			final ResponseEntity<ApiResponse<PointDto.V1.GetResponse>> actual =
 				testRestTemplate.exchange("/api/v1/points", HttpMethod.GET, new HttpEntity<>(headers), responseType);
 
 			assertAll(
@@ -115,9 +115,9 @@ public class PointV1ApiE2ETest {
 		void throwsNotFoundException_whenPointNonExists() {
 			final HttpHeaders headers = new HttpHeaders();
 			headers.set("X-USER-ID", "-1");
-			final ParameterizedTypeReference<ApiResponse<PointV1Dto.PointResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ParameterizedTypeReference<ApiResponse<PointDto.V1.GetResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<PointV1Dto.PointResponse>> actual =
+			final ResponseEntity<ApiResponse<PointDto.V1.GetResponse>> actual =
 				testRestTemplate.exchange("/api/v1/points", HttpMethod.GET, new HttpEntity<>(headers), responseType);
 
 			assertAll(
