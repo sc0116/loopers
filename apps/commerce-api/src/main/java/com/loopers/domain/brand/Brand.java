@@ -4,7 +4,9 @@ import com.loopers.domain.BaseEntity;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
+@Table(name = "brand")
 @Entity
 public class Brand extends BaseEntity {
 
@@ -28,5 +30,13 @@ public class Brand extends BaseEntity {
 
 		this.name = name;
 		this.description = description;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 }
