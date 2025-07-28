@@ -21,4 +21,12 @@ public record ProductInfo(
 			product.getStockQuantity()
 		);
 	}
+
+	public Long fetchBrandId() {
+		return brandId.getBrandId();
+	}
+
+	public Integer fetchStockQuantity() {
+		return stockQuantity.getStockQuantity();
+	}
 }

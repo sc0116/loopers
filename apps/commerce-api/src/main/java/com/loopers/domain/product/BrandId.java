@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @Embeddable
-class BrandId {
+public class BrandId {
 
 	@Column(name = "ref_brand_id", nullable = false)
 	private Long brandId;

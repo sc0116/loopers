@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @Embeddable
-class StockQuantity {
+public class StockQuantity {
 
 	@Column(name = "stock_quantity", nullable = false)
 	private Integer stockQuantity;
