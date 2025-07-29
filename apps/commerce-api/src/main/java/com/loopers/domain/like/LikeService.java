@@ -20,4 +20,10 @@ public class LikeService {
 
 		likeRepository.save(like);
 	}
+
+	@Transactional
+	public void unlike(final LikeCommand.Unlike command) {
+		likeRepository.find(command.userId(), command.target())
+			.ifPresent(likeRepository::delete);
+	}
 }

@@ -13,4 +13,14 @@ public record LikeCommand() {
 			return new Like(userId, new LikeTarget(TargetType.PRODUCT, productId));
 		}
 	}
+
+	public record Unlike(
+		Long userId,
+		LikeTarget target
+	) {
+
+		public static Unlike unlikeProduct(final Long userId, final Long productId) {
+			return new Unlike(userId, new LikeTarget(TargetType.PRODUCT, productId));
+		}
+	}
 }
