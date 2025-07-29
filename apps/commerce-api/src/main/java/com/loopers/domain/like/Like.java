@@ -3,11 +3,13 @@ package com.loopers.domain.like;
 import com.loopers.domain.BaseEntity;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
-import jakarta.persistence.*;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 
 @Getter
-@Table(name = "like")
+@Table(name = "target_like")
 @Entity
 public class Like extends BaseEntity {
 
