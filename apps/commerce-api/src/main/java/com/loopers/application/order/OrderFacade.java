@@ -8,7 +8,6 @@ import com.loopers.domain.point.PointService;
 import com.loopers.domain.product.ProductInfo;
 import com.loopers.domain.product.ProductService;
 import com.loopers.domain.stock.ProductStockCommand;
-import com.loopers.domain.stock.ProductStockInfo;
 import com.loopers.domain.stock.ProductStockService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +26,8 @@ public class OrderFacade {
 	@Transactional
 	public OrderResult order(final OrderCriteria.Order criteria) {
 		final List<ProductInfo> productInfos = productService.getProducts(criteria.toProductCommand());
-		final List<ProductStockInfo> stockInfos = productStockService.getStocks(criteria.toProductStockCommand());
 
-		final OrderCommand.Order command = OrderCommand.Order.from(criteria.userId(), productInfos, stockInfos);
+		final OrderCommand.Order command = criteria.toCommand(productInfos);
 		final OrderInfo orderInfo = orderService.order(command);
 
 		pointService.use(new PointCommand.Use(criteria.userId(), orderInfo.totalPrice().longValue()));
