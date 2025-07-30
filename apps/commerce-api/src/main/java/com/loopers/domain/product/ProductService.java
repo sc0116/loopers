@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Component
 public class ProductService {
@@ -14,8 +16,13 @@ public class ProductService {
 
 	@Transactional(readOnly = true)
 	public ProductInfo getProduct(final ProductCommand.GetProduct command) {
-		return productRepository.findById(command.id())
-			.map(ProductInfo::from)
+		return findProduct(command)
 			.orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 상품입니다."));
+	}
+
+	@Transactional(readOnly = true)
+	public Optional<ProductInfo> findProduct(final ProductCommand.GetProduct command) {
+		return productRepository.findById(command.id())
+			.map(ProductInfo::from);
 	}
 }
