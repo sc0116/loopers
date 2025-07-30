@@ -42,7 +42,7 @@ class ProductV1ApiE2ETest {
 
 	@DisplayName("GET /api/v1/products/{productId}")
 	@Nested
-	class Get {
+	class GetProduct {
 
 		@DisplayName("상품 정보 조회에 성공하면, 상품 정보를 반환한다.")
 		@Test

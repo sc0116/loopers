@@ -27,7 +27,7 @@ class ProductServiceTest {
 
 	@DisplayName("상품 정보를 조회할 때, ")
 	@Nested
-	class Get {
+	class GetProduct {
 
 		@DisplayName("존재하지 않는 상품 ID가 주어지면, NOT_FOUND 예외가 발생한다.")
 		@Test
@@ -36,7 +36,7 @@ class ProductServiceTest {
 				.willReturn(Optional.empty());
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.get(new ProductCommand.Get(-1L));
+				sut.getProduct(new ProductCommand.GetProduct(-1L));
 			});
 
 			assertThat(actual).usingRecursiveComparison()

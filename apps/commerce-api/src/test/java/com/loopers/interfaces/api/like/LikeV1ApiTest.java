@@ -1,6 +1,6 @@
 package com.loopers.interfaces.api.like;
 
-import com.loopers.domain.like.LikeService;
+import com.loopers.application.like.ProductLikeFacade;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ public class LikeV1ApiTest {
 	private MockMvc mockMvc;
 
 	@MockitoBean
-	private LikeService likeService;
+	private ProductLikeFacade productLikeFacade;
 
 	@DisplayName("POST /api/v1/like/products/{productId}")
 	@Nested

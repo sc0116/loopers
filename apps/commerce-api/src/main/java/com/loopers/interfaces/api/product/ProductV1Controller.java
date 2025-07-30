@@ -22,7 +22,7 @@ public class ProductV1Controller implements ProductV1ApiSpec {
 	public ApiResponse<ProductDto.V1.GetResponse> getProduct(
 		@PathVariable final Long productId
 	) {
-		final ProductInfo productInfo = productService.get(new ProductCommand.Get(productId));
+		final ProductInfo productInfo = productService.getProduct(new ProductCommand.GetProduct(productId));
 
 		return ApiResponse.success(ProductDto.V1.GetResponse.from(productInfo));
 	}
