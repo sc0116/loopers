@@ -3,8 +3,11 @@ package com.loopers.domain.point;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import jakarta.persistence.Embeddable;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+@Getter
+@EqualsAndHashCode
 @Embeddable
 public class Amount {
 
@@ -28,24 +31,11 @@ public class Amount {
 		this.amount += amount;
 	}
 
-	public Long getAmount() {
-		return amount;
-	}
-
-	@Override
-	public boolean equals(final Object o) {
-		if (this == o) {
-			return true;
+	public void use(final Long amount) {
+		if (this.amount < amount) {
+			throw new CoreException(ErrorType.BAD_REQUEST, "금액이 부족하여 차감할 수 없습니다.");
 		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		final Amount amount1 = (Amount) o;
-		return Objects.equals(amount, amount1.amount);
-	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(amount);
+		this.amount -= amount;
 	}
 }

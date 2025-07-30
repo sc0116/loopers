@@ -25,7 +25,7 @@ class ProductTest {
 		@ParameterizedTest
 		void throwsBadRequestException_whenNameIsNullOrBlank(final String name) {
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				new Product(new BrandId(1L), name, "짱구는 못말립니다.", BigDecimal.TEN, new StockQuantity(0));
+				new Product(new BrandId(1L), name, "짱구는 못말립니다.", BigDecimal.TEN);
 			});
 
 			assertThat(actual).usingRecursiveComparison()
@@ -38,7 +38,7 @@ class ProductTest {
 		@ParameterizedTest
 		void throwsBadRequestException_whenDescriptionIsNullOrBlank(final String description) {
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				new Product(new BrandId(1L), "짱구", description, BigDecimal.TEN, new StockQuantity(0));
+				new Product(new BrandId(1L), "짱구", description, BigDecimal.TEN);
 			});
 
 			assertThat(actual).usingRecursiveComparison()
@@ -50,7 +50,7 @@ class ProductTest {
 		@ParameterizedTest
 		void throwsBadRequestException_whenPriceIsNull(final BigDecimal price) {
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				new Product(new BrandId(1L), "짱구", "짱구는 못말립니다.", price, new StockQuantity(0));
+				new Product(new BrandId(1L), "짱구", "짱구는 못말립니다.", price);
 			});
 
 			assertThat(actual).usingRecursiveComparison()
@@ -62,7 +62,7 @@ class ProductTest {
 		@ParameterizedTest
 		void throwsBadRequestException_whenPriceIsNegative(final long price) {
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				new Product(new BrandId(1L), "짱구", "짱구는 못말립니다.", BigDecimal.valueOf(price), new StockQuantity(0));
+				new Product(new BrandId(1L), "짱구", "짱구는 못말립니다.", BigDecimal.valueOf(price));
 			});
 
 			assertThat(actual).usingRecursiveComparison()

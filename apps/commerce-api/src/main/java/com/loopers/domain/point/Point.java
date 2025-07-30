@@ -28,6 +28,10 @@ public class Point extends BaseEntity {
 		this.amount.charge(amount);
 	}
 
+	public void use(final Long amount) {
+		this.amount.use(amount);
+	}
+
 	public Long getUserId() {
 		return userId;
 	}

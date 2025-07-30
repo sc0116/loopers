@@ -2,11 +2,11 @@ package com.loopers.domain.product;
 
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -24,5 +24,12 @@ public class ProductService {
 	public Optional<ProductInfo> findProduct(final ProductCommand.GetProduct command) {
 		return productRepository.findById(command.id())
 			.map(ProductInfo::from);
+	}
+
+	@Transactional(readOnly = true)
+	public List<ProductInfo> getProducts(final ProductCommand.GetProducts command) {
+		return productRepository.findAllById(command.ids()).stream()
+			.map(ProductInfo::from)
+			.toList();
 	}
 }

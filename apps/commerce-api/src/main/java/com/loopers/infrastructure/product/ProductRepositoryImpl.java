@@ -2,6 +2,7 @@ package com.loopers.infrastructure.product;
 
 import com.loopers.domain.product.Product;
 import com.loopers.domain.product.ProductRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,5 +21,10 @@ public class ProductRepositoryImpl implements ProductRepository {
 	@Override
 	public Optional<Product> findById(final Long id) {
 		return productJpaRepository.findById(id);
+	}
+
+	@Override
+	public List<Product> findAllById(final List<Long> ids) {
+		return productJpaRepository.findAllById(ids);
 	}
 }

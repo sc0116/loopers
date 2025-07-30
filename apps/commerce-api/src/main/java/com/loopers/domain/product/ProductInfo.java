@@ -7,8 +7,7 @@ public record ProductInfo(
 	BrandId brandId,
 	String name,
 	String description,
-	BigDecimal price,
-	StockQuantity stockQuantity
+	BigDecimal price
 ) {
 
 	public static ProductInfo from(final Product product) {
@@ -17,16 +16,11 @@ public record ProductInfo(
 			product.getBrandId(),
 			product.getName(),
 			product.getDescription(),
-			product.getPrice(),
-			product.getStockQuantity()
+			product.getPrice()
 		);
 	}
 
 	public Long fetchBrandId() {
 		return brandId.getBrandId();
-	}
-
-	public Integer fetchStockQuantity() {
-		return stockQuantity.getStockQuantity();
 	}
 }

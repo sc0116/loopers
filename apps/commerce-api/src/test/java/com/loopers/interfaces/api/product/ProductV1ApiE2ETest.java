@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.loopers.domain.product.BrandId;
 import com.loopers.domain.product.Product;
-import com.loopers.domain.product.StockQuantity;
 import com.loopers.infrastructure.product.ProductJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
 import com.loopers.utils.DatabaseCleanUp;
@@ -47,7 +46,7 @@ class ProductV1ApiE2ETest {
 		@DisplayName("상품 정보 조회에 성공하면, 상품 정보를 반환한다.")
 		@Test
 		void returnsProductResponse_whenGetProduct() {
-			final Product product = createProduct(1L, "짱구", "짱구는 못말립니다.", 100L, 1);
+			final Product product = createProduct(1L, "짱구", "짱구는 못말립니다.", 100L);
 			final ParameterizedTypeReference<ApiResponse<ProductDto.V1.GetResponse>> responseType = new ParameterizedTypeReference<>() {};
 
 			final ResponseEntity<ApiResponse<ProductDto.V1.GetResponse>> actual =
@@ -62,8 +61,7 @@ class ProductV1ApiE2ETest {
 						product.getBrandId().getBrandId(),
 						"짱구",
 						"짱구는 못말립니다.",
-						BigDecimal.valueOf(100L),
-						1
+						BigDecimal.valueOf(100L)
 					))
 			);
 		}
@@ -73,15 +71,13 @@ class ProductV1ApiE2ETest {
 		final Long brandId,
 		final String name,
 		final String description,
-		final Long price,
-		final Integer stockQuantity
+		final Long price
 	) {
 		final Product product = new Product(
 			new BrandId(brandId),
 			name,
 			description,
-			BigDecimal.valueOf(price),
-			new StockQuantity(stockQuantity)
+			BigDecimal.valueOf(price)
 		);
 
 		return productJpaRepository.save(product);
