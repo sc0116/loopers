@@ -1,4 +1,4 @@
-package com.loopers.domain.product;
+package com.loopers.domain.stock;
 
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
@@ -12,20 +12,28 @@ import lombok.Getter;
 @Embeddable
 public class StockQuantity {
 
-	@Column(name = "stock_quantity", nullable = false)
-	private Integer stockQuantity;
+	@Column(name = "quantity", nullable = false)
+	private Integer quantity;
 
 	protected StockQuantity() {}
 
-	public StockQuantity(final Integer stockQuantity) {
-		if (stockQuantity == null) {
+	public StockQuantity(final Integer quantity) {
+		if (quantity == null) {
 			throw new CoreException(ErrorType.BAD_REQUEST, "상품 재고 수량은 비어있을 수 없습니다.");
 		}
 
-		if (stockQuantity < 0L) {
+		if (quantity < 0L) {
 			throw new CoreException(ErrorType.BAD_REQUEST, "상품 재고 수량은 음수가 될 수 없습니다.");
 		}
 
-		this.stockQuantity = stockQuantity;
+		this.quantity = quantity;
+	}
+
+	public void decrement(final Integer quantity) {
+		if (this.quantity < quantity) {
+			throw new CoreException(ErrorType.BAD_REQUEST, "상품 재고 수량이 부족하여 차감할 수 없습니다.");
+		}
+
+		this.quantity -= quantity;
 	}
 }

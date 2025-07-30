@@ -1,4 +1,4 @@
-package com.loopers.domain.product;
+package com.loopers.domain.stock;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -39,5 +39,18 @@ class StockQuantityTest {
 			assertThat(actual).usingRecursiveComparison()
 				.isEqualTo(new CoreException(ErrorType.BAD_REQUEST, "상품 재고 수량은 음수가 될 수 없습니다."));
 		}
+	}
+
+	@DisplayName("상품 재고 수량을 차감할 때, ")
+	@Test
+	void throwsBadRequestException_whenInsufficientStock() {
+		final StockQuantity sut = new StockQuantity(10);
+
+		final CoreException actual = assertThrows(CoreException.class, () -> {
+			sut.decrement(11);
+		});
+
+		assertThat(actual).usingRecursiveComparison()
+			.isEqualTo(new CoreException(ErrorType.BAD_REQUEST, "상품 재고 수량이 부족하여 차감할 수 없습니다."));
 	}
 }
