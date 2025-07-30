@@ -27,7 +27,7 @@ class ProductServiceIntegrationTest {
 		@DisplayName("존재하는 상품 ID가 주어지면, 상품 정보를 반환한다.")
 		@Test
 		void returnBrandInfo_whenProductAlreadyExists() {
-			final Product product = createProduct(1L, "짱구", "짱구는 못말립니다.", 100L, 1);
+			final Product product = createProduct(1L, "짱구", "짱구는 못말립니다.", 100L);
 
 			final ProductInfo actual = sut.getProduct(new ProductCommand.GetProduct(product.getId()));
 
@@ -37,8 +37,7 @@ class ProductServiceIntegrationTest {
 					new BrandId(1L),
 					"짱구",
 					"짱구는 못말립니다.",
-					BigDecimal.valueOf(100L),
-					new StockQuantity(1)
+					BigDecimal.valueOf(100L)
 				));
 		}
 	}
@@ -47,15 +46,13 @@ class ProductServiceIntegrationTest {
 		final Long brandId,
 		final String name,
 		final String description,
-		final Long price,
-		final Integer stockQuantity
+		final Long price
 	) {
 		final Product product = new Product(
 			new BrandId(brandId),
 			name,
 			description,
-			BigDecimal.valueOf(price),
-			new StockQuantity(stockQuantity)
+			BigDecimal.valueOf(price)
 		);
 
 		return productRepository.save(product);

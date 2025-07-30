@@ -12,8 +12,7 @@ public record ProductDto() {
 			Long brandId,
 			String name,
 			String description,
-			BigDecimal price,
-			Integer stockQuantity
+			BigDecimal price
 		) {
 
 			public static GetResponse from(final ProductInfo info) {
@@ -22,8 +21,7 @@ public record ProductDto() {
 					info.fetchBrandId(),
 					info.name(),
 					info.description(),
-					info.price(),
-					info.fetchStockQuantity()
+					info.price()
 				);
 			}
 		}

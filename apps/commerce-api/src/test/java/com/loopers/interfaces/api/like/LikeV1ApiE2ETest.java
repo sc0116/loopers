@@ -1,13 +1,16 @@
 package com.loopers.interfaces.api.like;
 
+import static com.loopers.domain.like.LikeTarget.TargetType;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.loopers.domain.like.Like;
 import com.loopers.domain.like.LikeTarget;
 import com.loopers.domain.product.BrandId;
 import com.loopers.domain.product.Product;
-import com.loopers.domain.product.StockQuantity;
 import com.loopers.infrastructure.like.LikeJpaRepository;
 import com.loopers.infrastructure.product.ProductJpaRepository;
 import com.loopers.utils.DatabaseCleanUp;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -19,11 +22,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-
-import java.math.BigDecimal;
-
-import static com.loopers.domain.like.LikeTarget.TargetType;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LikeV1ApiE2ETest {
@@ -98,8 +96,7 @@ public class LikeV1ApiE2ETest {
 			new BrandId(1L),
 			"상품명",
 			"상품 설명",
-			BigDecimal.TEN,
-			new StockQuantity(1)
+			BigDecimal.TEN
 		);
 
 		return productJpaRepository.save(product);
