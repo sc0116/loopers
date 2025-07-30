@@ -16,7 +16,7 @@ import java.util.List;
 import lombok.Getter;
 
 @Getter
-@Table(name = "order")
+@Table(name = "orders")
 @Entity
 public class Order extends BaseEntity {
 
