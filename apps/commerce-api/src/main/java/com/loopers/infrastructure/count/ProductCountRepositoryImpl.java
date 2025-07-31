@@ -2,6 +2,7 @@ package com.loopers.infrastructure.count;
 
 import com.loopers.domain.count.ProductCount;
 import com.loopers.domain.count.ProductCountRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,5 +21,10 @@ public class ProductCountRepositoryImpl implements ProductCountRepository {
 	@Override
 	public Optional<ProductCount> findBy(final Long productId) {
 		return productCountJpaRepository.findByProductId(productId);
+	}
+
+	@Override
+	public List<ProductCount> findAllBy(final List<Long> productIds) {
+		return productCountJpaRepository.findAllByProductIdIn(productIds);
 	}
 }

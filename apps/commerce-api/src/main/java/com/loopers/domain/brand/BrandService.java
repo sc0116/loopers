@@ -2,6 +2,7 @@ package com.loopers.domain.brand;
 
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class BrandService {
 
 	private final BrandRepository brandRepository;
+
+	@Transactional(readOnly = true)
+	public List<BrandInfo> getBrands(final BrandCommand.GetBrands command) {
+		return brandRepository.findAllBy(command.ids()).stream()
+			.map(BrandInfo::from)
+			.toList();
+	}
 
 	@Transactional(readOnly = true)
 	public BrandInfo getBrand(final BrandCommand.GetBrand command) {

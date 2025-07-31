@@ -15,8 +15,10 @@ import com.loopers.infrastructure.count.ProductCountJpaRepository;
 import com.loopers.infrastructure.product.ProductJpaRepository;
 import com.loopers.infrastructure.stock.ProductStockJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
+import com.loopers.interfaces.api.product.ProductDto.V1.GetResponse;
 import com.loopers.utils.DatabaseCleanUp;
 import java.math.BigDecimal;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -56,6 +58,52 @@ class ProductV1ApiE2ETest {
 		databaseCleanUp.truncateAllTables();
 	}
 
+	@DisplayName("GET /api/v1/products")
+	@Nested
+	class SearchProducts {
+
+		@DisplayName("상품 목록 조회에 성공하면, 상품 목록 정보를 반환한다.")
+		@Test
+		void returnsProductResponse_whenSearchProducts() {
+			final Brand brand = create("브랜드명", "브랜드 설명");
+			final Product product = createProduct(brand.getId(), "짱구", "짱구는 못말립니다.", 100L);
+			final Product product2 = createProduct(brand.getId(), "짱구2", "짱구는 못말립니다.", 200L);
+			final ParameterizedTypeReference<ApiResponse<ProductDto.V1.SearchProductsResponse>> responseType = new ParameterizedTypeReference<>() {};
+
+			final ResponseEntity<ApiResponse<ProductDto.V1.SearchProductsResponse>> actual =
+				testRestTemplate.exchange("/api/v1/products?sortOrder=DESC", HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), responseType);
+
+			assertAll(
+				() -> assertThat(actual.getStatusCode().is2xxSuccessful()).isTrue(),
+				() -> assertThat(actual.getBody().data().products()).usingRecursiveComparison()
+					.isEqualTo(List.of(
+						new GetResponse(
+							product2.getId(),
+							"짱구2",
+							"짱구는 못말립니다.",
+							new BigDecimal("200.00"),
+							null,
+							null,
+							brand.getId(),
+							"브랜드명",
+							"브랜드 설명"
+						),
+						new GetResponse(
+							product.getId(),
+							"짱구",
+							"짱구는 못말립니다.",
+							new BigDecimal("100.00"),
+							null,
+							null,
+							brand.getId(),
+							"브랜드명",
+							"브랜드 설명"
+						))
+					)
+			);
+		}
+	}
+
 	@DisplayName("GET /api/v1/products/{productId}")
 	@Nested
 	class GetProduct {
@@ -67,16 +115,16 @@ class ProductV1ApiE2ETest {
 			final Product product = createProduct(brand.getId(), "짱구", "짱구는 못말립니다.", 100L);
 			final ProductStock productStock = create(product, 10);
 			final ProductCount productCount = create(product, 5L);
-			final ParameterizedTypeReference<ApiResponse<ProductDto.V1.GetResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ParameterizedTypeReference<ApiResponse<GetResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<ProductDto.V1.GetResponse>> actual =
+			final ResponseEntity<ApiResponse<GetResponse>> actual =
 				testRestTemplate.exchange("/api/v1/products/" + product.getId(), HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), responseType);
 
 			assertAll(
 				() -> assertThat(actual.getStatusCode().is2xxSuccessful()).isTrue(),
 				() -> assertThat(actual.getBody().data()).usingRecursiveComparison()
 					.withComparatorForType(BigDecimal::compareTo, BigDecimal.class)
-					.isEqualTo(new ProductDto.V1.GetResponse(
+					.isEqualTo(new GetResponse(
 						product.getId(),
 						"짱구",
 						"짱구는 못말립니다.",

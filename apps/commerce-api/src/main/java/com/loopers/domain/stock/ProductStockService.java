@@ -2,6 +2,7 @@ package com.loopers.domain.stock;
 
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,13 @@ public class ProductStockService {
 	public Optional<ProductStockInfo> findStock(final ProductStockCommand.GetStock command) {
 		return productStockRepository.findByProductId(command.productId())
 			.map(ProductStockInfo::from);
+	}
+
+	@Transactional(readOnly = true)
+	public List<ProductStockInfo> findStocks(final ProductStockCommand.GetStocks command) {
+		return productStockRepository.findAllByProductId(command.productIds()).stream()
+			.map(ProductStockInfo::from)
+			.toList();
 	}
 
 	@Transactional
