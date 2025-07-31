@@ -9,6 +9,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public interface LikeV1ApiSpec {
 
 	@Operation(
+		summary = "내가 좋아요 한 상품 목록 조회"
+	)
+	ApiResponse<LikeDto.V1.GetMyProductsResponse> getMyProducts(
+		@Schema(name = "X-USER-ID")
+		Long userId
+	);
+
+	@Operation(
 		summary = "상품 좋아요 등록"
 	)
 	ApiResponse<Object> like(
