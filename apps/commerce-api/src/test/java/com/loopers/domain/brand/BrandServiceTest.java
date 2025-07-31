@@ -36,7 +36,7 @@ class BrandServiceTest {
 				.willReturn(Optional.empty());
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.get(new BrandCommand.Get(-1L));
+				sut.getBrand(new BrandCommand.GetBrand(-1L));
 			});
 
 			assertThat(actual).usingRecursiveComparison()

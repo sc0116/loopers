@@ -1,6 +1,8 @@
 package com.loopers.interfaces.api.like;
 
 import static com.loopers.domain.like.LikeTarget.TargetType;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.loopers.domain.like.Like;
@@ -9,8 +11,11 @@ import com.loopers.domain.product.BrandId;
 import com.loopers.domain.product.Product;
 import com.loopers.infrastructure.like.LikeJpaRepository;
 import com.loopers.infrastructure.product.ProductJpaRepository;
+import com.loopers.interfaces.api.ApiResponse;
+import com.loopers.interfaces.api.like.LikeDto.V1.GetMyProductsResponse.GetMyProductResponse;
 import com.loopers.utils.DatabaseCleanUp;
 import java.math.BigDecimal;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -18,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -41,6 +47,34 @@ public class LikeV1ApiE2ETest {
 	@AfterEach
 	void tearDown() {
 		databaseCleanUp.truncateAllTables();
+	}
+
+	@DisplayName("GET /api/v1/like/products")
+	@Nested
+	class GetMyProducts {
+
+		@DisplayName("내가 좋아요한 상품 목록 조회에 성공하면, 상품 목록 정보를 반환한다.")
+		@Test
+		void returnMyLikeProductsInfo_whenGetUserId() {
+			final Product product = defaultProduct();
+			final Like like = likeProduct(1L, product.getId());
+
+			final ParameterizedTypeReference<ApiResponse<LikeDto.V1.GetMyProductsResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ResponseEntity<ApiResponse<LikeDto.V1.GetMyProductsResponse>> actual = restTemplate.exchange(
+				"/api/v1/like/products",
+				HttpMethod.GET,
+				new HttpEntity<>(xUserId(1L)),
+				responseType
+			);
+
+			assertAll(
+				() -> assertTrue(actual.getStatusCode().is2xxSuccessful()),
+				() -> assertThat(actual.getBody().data()).usingRecursiveComparison()
+					.isEqualTo(new LikeDto.V1.GetMyProductsResponse(List.of(
+						new GetMyProductResponse(product.getId(), product.getName(), product.getDescription(), new BigDecimal("10.00"))
+					)))
+			);
+		}
 	}
 
 	@DisplayName("POST /api/v1/like/products/{productId}")

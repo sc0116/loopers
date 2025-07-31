@@ -1,6 +1,6 @@
 package com.loopers.interfaces.api.brand;
 
-import com.loopers.domain.brand.BrandCommand.Get;
+import com.loopers.domain.brand.BrandCommand.GetBrand;
 import com.loopers.domain.brand.BrandInfo;
 import com.loopers.domain.brand.BrandService;
 import com.loopers.interfaces.api.ApiResponse;
@@ -22,7 +22,7 @@ public class BrandV1Controller implements BrandV1ApiSpec {
 	public ApiResponse<BrandDto.V1.GetResponse> getBrand(
 		@PathVariable final Long brandId
 	) {
-		final BrandInfo brandInfo = brandService.get(new Get(brandId));
+		final BrandInfo brandInfo = brandService.getBrand(new GetBrand(brandId));
 
 		return ApiResponse.success(BrandDto.V1.GetResponse.from(brandInfo));
 	}

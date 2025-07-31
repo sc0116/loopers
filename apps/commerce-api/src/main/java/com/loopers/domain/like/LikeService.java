@@ -1,5 +1,6 @@
 package com.loopers.domain.like;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,5 +26,12 @@ public class LikeService {
 	public void unlike(final LikeCommand.Unlike command) {
 		likeRepository.find(command.userId(), command.target())
 			.ifPresent(likeRepository::delete);
+	}
+
+	@Transactional(readOnly = true)
+	public List<LikeInfo> getMyLikes(final LikeCommand.GetMyLikes command) {
+		return likeRepository.findAll(command.userId(), command.type()).stream()
+			.map(LikeInfo::from)
+			.toList();
 	}
 }
