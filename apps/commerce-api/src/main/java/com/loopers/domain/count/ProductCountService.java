@@ -1,5 +1,6 @@
 package com.loopers.domain.count;
 
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,13 @@ public class ProductCountService {
 	public Optional<ProductCountInfo> findProductCount(final ProductCountCommand.GetProductCount command) {
 		return productCountRepository.findBy(command.productId())
 			.map(ProductCountInfo::from);
+	}
+
+	@Transactional(readOnly = true)
+	public List<ProductCountInfo> findProductCounts(final ProductCountCommand.GetProductCounts command) {
+		return productCountRepository.findAllBy(command.productIds()).stream()
+			.map(ProductCountInfo::from)
+			.toList();
 	}
 
 	@Transactional
