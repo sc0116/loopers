@@ -5,6 +5,7 @@ import com.loopers.support.error.ErrorType;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,5 +32,15 @@ public class ProductService {
 		return productRepository.findAllById(command.ids()).stream()
 			.map(ProductInfo::from)
 			.toList();
+	}
+
+	@Transactional(readOnly = true)
+	public Page<ProductInfo> searchProducts(final ProductCommand.SearchProducts command) {
+		if (command.brandId() == null) {
+			return productRepository.findAll(command.pageRequest())
+				.map(ProductInfo::from);
+		}
+		return productRepository.findAll(command.brandId(), command.pageRequest())
+			.map(ProductInfo::from);
 	}
 }
