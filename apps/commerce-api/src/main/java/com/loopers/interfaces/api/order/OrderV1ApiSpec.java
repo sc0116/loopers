@@ -19,6 +19,14 @@ public interface OrderV1ApiSpec {
 	);
 
 	@Operation(
+		summary = "회원 주문 목록 조회"
+	)
+	ApiResponse<OrderDto.V1.GetOrdersResponse> getOrders(
+		@Schema(name = "X-USER-ID")
+		Long userId
+	);
+
+	@Operation(
 		summary = "단일 주문 상세 조회"
 	)
 	ApiResponse<OrderDto.V1.GetOrderDetailResponse> getOrder(

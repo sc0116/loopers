@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.loopers.application.order.OrderFacade;
+import com.loopers.domain.order.OrderService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,9 @@ public class OrderV1ApiTest {
 	@MockitoBean
 	private OrderFacade orderFacade;
 
+	@MockitoBean
+	private OrderService orderService;
+
 	@DisplayName("POST /api/v1/orders")
 	@Nested
 	class PostOrder {
@@ -31,6 +35,19 @@ public class OrderV1ApiTest {
 		@Test
 		void throwsBadRequestException_whenRequestHeaderIsMissing() throws Exception {
 			mockMvc.perform(post("/api/v1/orders"))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.meta.message").value("필수 헤더 'X-USER-ID' 가 누락되었습니다."));
+		}
+	}
+
+	@DisplayName("GET /api/v1/orders")
+	@Nested
+	class GetOrders {
+
+		@DisplayName("X-USER-ID가 누락되면, BAD_REQUEST 예외가 반환된다.")
+		@Test
+		void throwsBadRequestException_whenRequestHeaderIsMissing() throws Exception {
+			mockMvc.perform(get("/api/v1/orders"))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.meta.message").value("필수 헤더 'X-USER-ID' 가 누락되었습니다."));
 		}

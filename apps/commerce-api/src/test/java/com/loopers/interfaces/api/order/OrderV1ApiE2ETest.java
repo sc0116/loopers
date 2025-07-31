@@ -17,6 +17,7 @@ import com.loopers.infrastructure.point.PointJpaRepository;
 import com.loopers.infrastructure.product.ProductJpaRepository;
 import com.loopers.infrastructure.stock.ProductStockJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
+import com.loopers.interfaces.api.order.OrderDto.V1.GetOrdersResponse.GetOrderResponse;
 import com.loopers.utils.DatabaseCleanUp;
 import java.math.BigDecimal;
 import java.util.List;
@@ -81,6 +82,36 @@ public class OrderV1ApiE2ETest {
 			);
 
 			assertTrue(actual.getStatusCode().is2xxSuccessful());
+		}
+	}
+
+	@DisplayName("GET /api/v1/orders")
+	@Nested
+	class GetOrders {
+
+		@DisplayName("주문 목록 조회에 성공하면, 주문 목록 정보를 반환한다.")
+		@Test
+		void returnsOrdersResponse_whenGetOrders() {
+			final Product product = defaultProduct("상품명");
+			final Order order1 = create(1L, List.of(create(product, 2, BigDecimal.valueOf(1500))));
+			final Order order2 = create(1L, List.of(create(product, 3, BigDecimal.valueOf(1200))));
+
+			final ParameterizedTypeReference<ApiResponse<OrderDto.V1.GetOrdersResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ResponseEntity<ApiResponse<OrderDto.V1.GetOrdersResponse>> actual = restTemplate.exchange(
+				"/api/v1/orders",
+				HttpMethod.GET,
+				new HttpEntity<>(xUserId(1L)),
+				responseType
+			);
+
+			assertAll(
+				() -> assertTrue(actual.getStatusCode().is2xxSuccessful()),
+				() -> assertThat(actual.getBody().data()).usingRecursiveComparison()
+					.isEqualTo(new OrderDto.V1.GetOrdersResponse(List.of(
+						new GetOrderResponse(order1.getId(), "PENDING", new BigDecimal("3000.00")),
+						new GetOrderResponse(order2.getId(), "PENDING", new BigDecimal("3600.00"))
+					)))
+			);
 		}
 	}
 
