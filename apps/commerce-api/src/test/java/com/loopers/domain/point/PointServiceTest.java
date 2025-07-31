@@ -32,7 +32,7 @@ class PointServiceTest {
 		@DisplayName("해당 회원의 포인트가 이미 존재하면, CONFLICT 예외가 발생한다.")
 		@Test
 		void throwsConflictException_whenUserIdAlreadyExists() {
-			given(pointRepository.existsByUserId(anyLong()))
+			given(pointRepository.existsBy(anyLong()))
 				.willReturn(true);
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
@@ -51,11 +51,11 @@ class PointServiceTest {
 		@DisplayName("존재하지 않는 회원 ID가 주어지면, NOT_FOUND 예외를 반환한다.")
 		@Test
 		void returnThrows_whenPointNonExists() {
-			given(pointRepository.findByUserId(anyLong()))
+			given(pointRepository.findBy(anyLong()))
 				.willReturn(Optional.empty());
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.get(-1L);
+				sut.getPoint(new PointCommand.GetPoint(-1L));
 			});
 
 			assertThat(actual).usingRecursiveComparison()
@@ -70,7 +70,7 @@ class PointServiceTest {
 		@DisplayName("존재하지 않는 회원 ID가 주어지면, NOT_FOUND 예외가 반환된다.")
 		@Test
 		void throwsNotFoundException_whenUserDoesNotExist() {
-			given(pointRepository.findByUserId(anyLong()))
+			given(pointRepository.findBy(anyLong()))
 				.willReturn(Optional.empty());
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
