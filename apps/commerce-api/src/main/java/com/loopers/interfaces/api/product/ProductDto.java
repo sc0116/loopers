@@ -2,6 +2,7 @@ package com.loopers.interfaces.api.product;
 
 import com.loopers.application.product.ProductResult;
 import java.math.BigDecimal;
+import java.util.List;
 
 public record ProductDto() {
 
@@ -30,6 +31,17 @@ public record ProductDto() {
 					result.brandId(),
 					result.brandName(),
 					result.brandDescription()
+				);
+			}
+		}
+
+		public record SearchProductsResponse(List<GetResponse> products, Long totalElements, Integer totalPages) {
+
+			public static SearchProductsResponse from(final ProductResult.SearchProducts searchResults) {
+				return new SearchProductsResponse(
+					searchResults.products().map(GetResponse::from).toList(),
+					searchResults.products().getTotalElements(),
+					searchResults.products().getTotalPages()
 				);
 			}
 		}
