@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.loopers.application.user.UserFacade;
+import com.loopers.domain.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,9 @@ public class UserV1ApiTest {
 
 	@MockitoBean
 	private UserFacade userFacade;
+
+	@MockitoBean
+	private UserService userService;
 
 	@DisplayName("/api/v1/users/me")
 	@Nested

@@ -2,7 +2,7 @@ package com.loopers.application.user;
 
 import com.loopers.domain.user.UserCommand;
 
-public class UserCriteria {
+public record UserCriteria() {
 
 	public record Register(
 		String loginId,

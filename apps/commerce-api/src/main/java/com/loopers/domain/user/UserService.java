@@ -24,7 +24,6 @@ public class UserService {
 		if (userRepository.existsBy(user.getLoginId())) {
 			throw new CoreException(ErrorType.CONFLICT, "이미 존재하는 ID입니다.");
 		}
-
 		if (userRepository.existsBy(user.getEmail())) {
 			throw new CoreException(ErrorType.CONFLICT, "이미 존재하는 이메일입니다.");
 		}
@@ -33,8 +32,8 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public UserInfo get(final Long userId) {
-		return userRepository.findById(userId)
+	public UserInfo getUser(final UserCommand.GetUser command) {
+		return userRepository.findBy(command.id())
 			.map(UserInfo::from)
 			.orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 회원입니다."));
 	}

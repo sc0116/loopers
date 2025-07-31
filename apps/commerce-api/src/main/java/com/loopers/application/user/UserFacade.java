@@ -6,6 +6,7 @@ import com.loopers.domain.user.UserInfo;
 import com.loopers.domain.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Component
@@ -14,17 +15,12 @@ public class UserFacade {
     private final UserService userService;
 	private final PointService pointService;
 
+	@Transactional
     public UserResult register(final UserCriteria.Register criteria) {
-		final UserResult userResult = UserResult.from(userService.register(criteria.toCommand()));
+		final UserInfo userInfo = userService.register(criteria.toCommand());
 
-		pointService.create(new PointCommand.Create(userResult.id(), 0L));
-
-		return userResult;
-    }
-
-	public UserResult getUser(final Long userId) {
-		final UserInfo userInfo = userService.get(userId);
+		pointService.create(new PointCommand.Create(userInfo.id(), 0L));
 
 		return UserResult.from(userInfo);
-	}
+    }
 }
