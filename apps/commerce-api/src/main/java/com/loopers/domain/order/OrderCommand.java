@@ -11,4 +11,6 @@ public record OrderCommand() {
 	}
 
 	public record GetOrder(Long userId, Long orderId) {}
+
+	public record GetOrders(Long userId) {}
 }

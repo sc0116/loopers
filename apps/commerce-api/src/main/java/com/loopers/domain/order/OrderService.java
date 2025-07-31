@@ -29,4 +29,11 @@ public class OrderService {
 			.map(OrderInfo::from)
 			.orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 주문입니다."));
 	}
+
+	@Transactional(readOnly = true)
+	public List<OrderInfo> getOrders(final OrderCommand.GetOrders command) {
+		return orderRepository.findAllBy(command.userId()).stream()
+			.map(OrderInfo::from)
+			.toList();
+	}
 }
