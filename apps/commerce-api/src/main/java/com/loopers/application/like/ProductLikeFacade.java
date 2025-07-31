@@ -1,11 +1,14 @@
 package com.loopers.application.like;
 
 import com.loopers.domain.count.ProductCountService;
+import com.loopers.domain.like.LikeInfo;
 import com.loopers.domain.like.LikeService;
+import com.loopers.domain.product.ProductCommand;
 import com.loopers.domain.product.ProductInfo;
 import com.loopers.domain.product.ProductService;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -41,5 +44,16 @@ public class ProductLikeFacade {
 		likeService.unlike(criteria.toLikeCommand());
 
 		productCountService.decrement(criteria.toCountCommand());
+	}
+
+	public LikeResult.GetMyProducts getMyProducts(final LikeCriteria.GetMyProducts criteria) {
+		final List<LikeInfo> likeInfos = likeService.getMyLikes(criteria.toCommand());
+
+		final List<Long> productIds = likeInfos.stream()
+			.map(LikeInfo::fetchTargetId)
+			.toList();
+		final List<ProductInfo> productInfos = productService.getProducts(new ProductCommand.GetProducts(productIds));
+
+		return LikeResult.GetMyProducts.from(productInfos);
 	}
 }

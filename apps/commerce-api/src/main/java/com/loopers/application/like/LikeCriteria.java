@@ -10,11 +10,7 @@ import com.loopers.domain.product.ProductCommand;
 
 public record LikeCriteria() {
 
-	public record Like(
-		Long userId,
-		Long productId,
-		TargetType type
-	) {
+	public record Like(Long userId, Long productId, TargetType type) {
 
 		public static LikeCriteria.Like likeProduct(final Long userId, final Long productId) {
 			return new LikeCriteria.Like(userId, productId, TargetType.PRODUCT);
@@ -33,11 +29,7 @@ public record LikeCriteria() {
 		}
 	}
 
-	public record Unlike(
-		Long userId,
-		Long productId,
-		TargetType type
-	) {
+	public record Unlike(Long userId, Long productId, TargetType type) {
 
 		public static LikeCriteria.Unlike unlikeProduct(final Long userId, final Long productId) {
 			return new LikeCriteria.Unlike(userId, productId, TargetType.PRODUCT);
@@ -53,6 +45,13 @@ public record LikeCriteria() {
 
 		public ProductCountCommand.Decrement toCountCommand() {
 			return new ProductCountCommand.Decrement(productId, CountType.LIKE);
+		}
+	}
+
+	public record GetMyProducts(Long userId) {
+
+		public LikeCommand.GetMyLikes toCommand() {
+			return new LikeCommand.GetMyLikes(userId, TargetType.PRODUCT);
 		}
 	}
 }
