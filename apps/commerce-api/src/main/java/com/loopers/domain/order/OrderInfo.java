@@ -36,11 +36,7 @@ public record OrderInfo(
 	public record OrderItemInfo(Long productId, Integer quantity, BigDecimal price) {
 
 		public static OrderItemInfo from(final OrderItem item) {
-			return new OrderItemInfo(
-				item.getProductId(),
-				item.getQuantity(),
-				item.getPrice()
-			);
+			return new OrderItemInfo(item.getProductId(), item.getQuantity(), item.getPrice());
 		}
 	}
 }
