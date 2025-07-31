@@ -1,5 +1,7 @@
 package com.loopers.domain.order;
 
+import com.loopers.support.error.CoreException;
+import com.loopers.support.error.ErrorType;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,5 +21,12 @@ public class OrderService {
 		final Order order = new Order(command.userId(), items);
 
 		return OrderInfo.from(orderRepository.save(order));
+	}
+
+	@Transactional(readOnly = true)
+	public OrderInfo getOrder(final OrderCommand.GetOrder command) {
+		return orderRepository.findBy(command.orderId(), command.userId())
+			.map(OrderInfo::from)
+			.orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 주문입니다."));
 	}
 }

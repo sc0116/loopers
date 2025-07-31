@@ -1,6 +1,8 @@
 package com.loopers.interfaces.api.order;
 
 import com.loopers.application.order.OrderCriteria;
+import com.loopers.application.order.OrderResult;
+import java.math.BigDecimal;
 import java.util.List;
 
 public record OrderDto() {
@@ -23,6 +25,34 @@ public record OrderDto() {
 					return new OrderCriteria.Order.OrderItem(productId, quantity);
 				}
 			}
+		}
+
+		public record GetOrderDetailResponse(
+			Long id,
+			String status,
+			BigDecimal totalPrice,
+			List<GetOrderItemDetailResponse> items
+		) {
+
+			public static GetOrderDetailResponse from(final OrderResult result) {
+				final List<GetOrderItemDetailResponse> itemDetails = result.items().stream()
+					.map(item -> new GetOrderItemDetailResponse(
+						item.productId(),
+						item.name(),
+						item.quantity(),
+						item.price()
+					))
+					.toList();
+
+				return new GetOrderDetailResponse(
+					result.id(),
+					result.status().name(),
+					result.totalPrice(),
+					itemDetails
+				);
+			}
+
+			public record GetOrderItemDetailResponse(Long productId, String name, Integer quantity, BigDecimal price) {}
 		}
 	}
 }
