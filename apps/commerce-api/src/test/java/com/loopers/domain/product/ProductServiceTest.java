@@ -32,7 +32,7 @@ class ProductServiceTest {
 		@DisplayName("존재하지 않는 상품 ID가 주어지면, NOT_FOUND 예외가 발생한다.")
 		@Test
 		void throwsNotFoundException_whenProductIdDoesNotExist() {
-			given(productRepository.findById(anyLong()))
+			given(productRepository.findBy(anyLong()))
 				.willReturn(Optional.empty());
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
