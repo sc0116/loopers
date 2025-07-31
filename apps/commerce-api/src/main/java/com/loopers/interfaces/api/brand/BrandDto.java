@@ -6,18 +6,10 @@ public record BrandDto() {
 
 	public record V1() {
 
-		public record GetResponse(
-			Long id,
-			String name,
-			String description
-		) {
+		public record GetBrandResponse(Long id, String name, String description) {
 
-			public static GetResponse from(final BrandInfo info) {
-				return new GetResponse(
-					info.id(),
-					info.name(),
-					info.description()
-				);
+			public static GetBrandResponse from(final BrandInfo info) {
+				return new GetBrandResponse(info.id(), info.name(), info.description());
 			}
 		}
 	}

@@ -32,7 +32,7 @@ class BrandServiceTest {
 		@DisplayName("존재하지 않는 브랜드 ID가 주어지면, NOT_FOUND 예외가 발생한다.")
 		@Test
 		void throwsNotFoundException_whenBrandIdDoesNotExist() {
-			given(brandRepository.findById(anyLong()))
+			given(brandRepository.findBy(anyLong()))
 				.willReturn(Optional.empty());
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {

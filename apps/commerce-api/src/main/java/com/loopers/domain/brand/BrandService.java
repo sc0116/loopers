@@ -22,7 +22,7 @@ public class BrandService {
 
 	@Transactional(readOnly = true)
 	public BrandInfo getBrand(final BrandCommand.GetBrand command) {
-		return brandRepository.findById(command.id())
+		return brandRepository.findBy(command.id())
 			.map(BrandInfo::from)
 			.orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 브랜드입니다."));
 	}
