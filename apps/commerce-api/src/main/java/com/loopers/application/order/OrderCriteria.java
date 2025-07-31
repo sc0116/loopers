@@ -38,4 +38,11 @@ public record OrderCriteria() {
 
 		public record OrderItem(Long productId, Integer quantity) { }
 	}
+
+	public record GetOrder(Long userId, Long orderId) {
+
+		public OrderCommand.GetOrder toCommand() {
+			return new OrderCommand.GetOrder(userId, orderId);
+		}
+	}
 }

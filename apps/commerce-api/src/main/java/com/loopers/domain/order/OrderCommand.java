@@ -9,4 +9,6 @@ public record OrderCommand() {
 
 		public record OrderItem(Long productId, Integer quantity, BigDecimal price) {}
 	}
+
+	public record GetOrder(Long userId, Long orderId) {}
 }
