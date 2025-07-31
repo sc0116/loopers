@@ -29,6 +29,13 @@ public record LikeCriteria() {
 		}
 	}
 
+	public record GetMyProducts(Long userId) {
+
+		public LikeCommand.GetMyLikes toCommand() {
+			return new LikeCommand.GetMyLikes(userId, TargetType.PRODUCT);
+		}
+	}
+
 	public record Unlike(Long userId, Long productId, TargetType type) {
 
 		public static LikeCriteria.Unlike unlikeProduct(final Long userId, final Long productId) {
@@ -45,13 +52,6 @@ public record LikeCriteria() {
 
 		public ProductCountCommand.Decrement toCountCommand() {
 			return new ProductCountCommand.Decrement(productId, CountType.LIKE);
-		}
-	}
-
-	public record GetMyProducts(Long userId) {
-
-		public LikeCommand.GetMyLikes toCommand() {
-			return new LikeCommand.GetMyLikes(userId, TargetType.PRODUCT);
 		}
 	}
 }

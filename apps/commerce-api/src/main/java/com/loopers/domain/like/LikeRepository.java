@@ -7,11 +7,11 @@ public interface LikeRepository {
 
 	Like save(Like like);
 
-	boolean exists(Long userId, LikeTarget target);
+	boolean existsBy(Long userId, LikeTarget target);
 
-	List<Like> findAll(Long userId, LikeTarget.TargetType type);
+	Optional<Like> findBy(Long userId, LikeTarget target);
 
-	Optional<Like> find(Long userId, LikeTarget target);
+	List<Like> findAllBy(Long userId, LikeTarget.TargetType type);
 
 	void delete(Like like);
 }
