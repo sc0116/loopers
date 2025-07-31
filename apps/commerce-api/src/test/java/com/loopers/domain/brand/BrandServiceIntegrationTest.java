@@ -28,7 +28,7 @@ class BrandServiceIntegrationTest {
 		void returnBrandInfo_whenBrandAlreadyExists() {
 			final Brand brand = createBrand("짱구", "짱구는 못말립니다.");
 
-			final BrandInfo actual = sut.get(new BrandCommand.Get(brand.getId()));
+			final BrandInfo actual = sut.getBrand(new BrandCommand.GetBrand(brand.getId()));
 
 			assertThat(actual).usingRecursiveComparison()
 				.isEqualTo(new BrandInfo(
