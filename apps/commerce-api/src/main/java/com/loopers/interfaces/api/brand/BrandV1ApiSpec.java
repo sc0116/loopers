@@ -11,7 +11,7 @@ public interface BrandV1ApiSpec {
 	@Operation(
 		summary = "브랜드 정보 조회"
 	)
-	ApiResponse<BrandDto.V1.GetResponse> getBrand(
+	ApiResponse<BrandDto.V1.GetBrandResponse> getBrand(
 		@Schema(name = "브랜드 ID")
 		Long brandId
 	);

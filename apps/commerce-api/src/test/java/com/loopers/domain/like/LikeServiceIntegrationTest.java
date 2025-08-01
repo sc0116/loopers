@@ -31,7 +31,7 @@ class LikeServiceIntegrationTest {
 
 			sut.like(new LikeCommand.Like(1L, target));
 
-			assertThat(likeRepository.exists(1L, target)).isTrue();
+			assertThat(likeRepository.existsBy(1L, target)).isTrue();
 		}
 	}
 
@@ -46,7 +46,7 @@ class LikeServiceIntegrationTest {
 
 			sut.unlike(new LikeCommand.Unlike(like.getUserId(), like.getTarget()));
 
-			assertThat(likeRepository.exists(like.getUserId(), like.getTarget())).isFalse();
+			assertThat(likeRepository.existsBy(like.getUserId(), like.getTarget())).isFalse();
 		}
 	}
 

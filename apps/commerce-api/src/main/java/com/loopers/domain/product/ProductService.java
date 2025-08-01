@@ -23,13 +23,13 @@ public class ProductService {
 
 	@Transactional(readOnly = true)
 	public Optional<ProductInfo> findProduct(final ProductCommand.GetProduct command) {
-		return productRepository.findById(command.id())
+		return productRepository.findBy(command.id())
 			.map(ProductInfo::from);
 	}
 
 	@Transactional(readOnly = true)
 	public List<ProductInfo> getProducts(final ProductCommand.GetProducts command) {
-		return productRepository.findAllById(command.ids()).stream()
+		return productRepository.findAllBy(command.ids()).stream()
 			.map(ProductInfo::from)
 			.toList();
 	}
@@ -37,10 +37,10 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public Page<ProductInfo> searchProducts(final ProductCommand.SearchProducts command) {
 		if (command.brandId() == null) {
-			return productRepository.findAll(command.pageRequest())
+			return productRepository.findAllBy(command.pageRequest())
 				.map(ProductInfo::from);
 		}
-		return productRepository.findAll(command.brandId(), command.pageRequest())
+		return productRepository.findAllBy(command.brandId(), command.pageRequest())
 			.map(ProductInfo::from);
 	}
 }

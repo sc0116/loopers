@@ -30,7 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public Optional<User> findById(final Long id) {
+	public Optional<User> findBy(final Long id) {
 		return userJpaRepository.findById(id);
 	}
 }

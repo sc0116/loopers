@@ -60,7 +60,7 @@ class PointServiceIntegrationTest {
 			final Long invalidUserId = -1L;
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.get(invalidUserId);
+				sut.getPoint(new PointCommand.GetPoint(invalidUserId));
 			});
 
 			assertThat(actual).usingRecursiveComparison()
@@ -72,7 +72,7 @@ class PointServiceIntegrationTest {
 		void returnPointInfo_whenPointAlreadyExists() {
 			final Point point = createPoint(1L, 1L);
 
-			final PointInfo actual = sut.get(point.getUserId());
+			final PointInfo actual = sut.getPoint(new PointCommand.GetPoint(point.getUserId()));
 
 			assertThat(actual).usingRecursiveComparison()
 				.isEqualTo(new PointInfo(

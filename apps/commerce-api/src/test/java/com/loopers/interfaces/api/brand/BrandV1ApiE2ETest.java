@@ -45,15 +45,15 @@ class BrandV1ApiE2ETest {
 		@Test
 		void returnsBrandResponse_whenGetBrand() {
 			final Brand brand = createBrand("짱구", "짱구는 못말립니다.");
-			final ParameterizedTypeReference<ApiResponse<BrandDto.V1.GetResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ParameterizedTypeReference<ApiResponse<BrandDto.V1.GetBrandResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<BrandDto.V1.GetResponse>> actual =
+			final ResponseEntity<ApiResponse<BrandDto.V1.GetBrandResponse>> actual =
 				testRestTemplate.exchange("/api/v1/brands/" + brand.getId(), HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), responseType);
 
 			assertAll(
 				() -> assertThat(actual.getStatusCode().is2xxSuccessful()).isTrue(),
 				() -> assertThat(actual.getBody().data()).usingRecursiveComparison()
-					.isEqualTo(new BrandDto.V1.GetResponse(brand.getId(), "짱구", "짱구는 못말립니다."))
+					.isEqualTo(new BrandDto.V1.GetBrandResponse(brand.getId(), "짱구", "짱구는 못말립니다."))
 			);
 		}
 	}

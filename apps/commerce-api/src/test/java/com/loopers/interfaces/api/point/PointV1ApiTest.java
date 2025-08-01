@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.loopers.application.point.PointFacade;
+import com.loopers.domain.point.PointService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ public class PointV1ApiTest {
 	private MockMvc mockMvc;
 
 	@MockitoBean
-	private PointFacade pointFacade;
+	private PointService pointService;
 
 	@DisplayName("POST /api/v1/points/charge")
 	@Nested

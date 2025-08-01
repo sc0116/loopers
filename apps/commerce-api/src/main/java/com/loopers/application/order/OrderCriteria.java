@@ -11,7 +11,7 @@ public record OrderCriteria() {
 
 	public record Order(Long userId, List<OrderItem> items) {
 
-		public OrderCommand.Order toCommand(final List<ProductInfo> productInfos) {
+		public OrderCommand.Order toOrderCommand(final List<ProductInfo> productInfos) {
 			final Map<Long, Integer> productQuantities = items.stream()
 				.collect(Collectors.toMap(OrderItem::productId, OrderItem::quantity));
 

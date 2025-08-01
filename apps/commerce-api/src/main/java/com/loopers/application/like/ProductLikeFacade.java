@@ -34,6 +34,17 @@ public class ProductLikeFacade {
 		productCountService.increment(criteria.toCountCommand());
 	}
 
+	public LikeResult.GetMyProducts getMyProducts(final LikeCriteria.GetMyProducts criteria) {
+		final List<LikeInfo> likeInfos = likeService.getMyLikes(criteria.toCommand());
+
+		final List<Long> productIds = likeInfos.stream()
+			.map(LikeInfo::fetchTargetId)
+			.toList();
+		final List<ProductInfo> productInfos = productService.getProducts(new ProductCommand.GetProducts(productIds));
+
+		return LikeResult.GetMyProducts.from(productInfos);
+	}
+
 	@Transactional
 	public void unlike(final LikeCriteria.Unlike criteria) {
 		final Optional<ProductInfo> productInfo = productService.findProduct(criteria.toProductCommand());
@@ -44,16 +55,5 @@ public class ProductLikeFacade {
 		likeService.unlike(criteria.toLikeCommand());
 
 		productCountService.decrement(criteria.toCountCommand());
-	}
-
-	public LikeResult.GetMyProducts getMyProducts(final LikeCriteria.GetMyProducts criteria) {
-		final List<LikeInfo> likeInfos = likeService.getMyLikes(criteria.toCommand());
-
-		final List<Long> productIds = likeInfos.stream()
-			.map(LikeInfo::fetchTargetId)
-			.toList();
-		final List<ProductInfo> productInfos = productService.getProducts(new ProductCommand.GetProducts(productIds));
-
-		return LikeResult.GetMyProducts.from(productInfos);
 	}
 }

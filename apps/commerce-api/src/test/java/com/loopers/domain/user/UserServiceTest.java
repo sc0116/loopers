@@ -67,11 +67,11 @@ public class UserServiceTest {
 		@DisplayName("존재하지 않는 회원 ID가 주어지면, NOT_FOUND 예외를 반환한다.")
 		@Test
 		void returnThrows_whenUserNonExists() {
-			given(userRepository.findById(anyLong()))
+			given(userRepository.findBy(anyLong()))
 				.willReturn(Optional.empty());
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.get(-1L);
+				sut.getUser(new UserCommand.GetUser(-1L));
 			});
 
 			assertThat(actual).usingRecursiveComparison()

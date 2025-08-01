@@ -9,11 +9,11 @@ public interface ProductRepository {
 
 	Product save(Product product);
 
-	Optional<Product> findById(Long id);
+	Optional<Product> findBy(Long id);
 
-	List<Product> findAllById(List<Long> ids);
+	List<Product> findAllBy(List<Long> ids);
 
-	Page<Product> findAll(Long brandId, Pageable pageable);
+	Page<Product> findAllBy(Long brandId, Pageable pageable);
 
-	Page<Product> findAll(Pageable pageable);
+	Page<Product> findAllBy(Pageable pageable);
 }

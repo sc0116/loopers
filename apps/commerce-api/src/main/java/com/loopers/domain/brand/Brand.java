@@ -5,7 +5,9 @@ import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
+@Getter
 @Table(name = "brand")
 @Entity
 public class Brand extends BaseEntity {
@@ -23,20 +25,11 @@ public class Brand extends BaseEntity {
 		if (name == null || name.isBlank()) {
 			throw new CoreException(ErrorType.BAD_REQUEST, "브랜드명은 비어있을 수 없습니다.");
 		}
-
 		if (description == null || description.isBlank()) {
 			throw new CoreException(ErrorType.BAD_REQUEST, "브랜드 설명은 비어있을 수 없습니다.");
 		}
 
 		this.name = name;
 		this.description = description;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getDescription() {
-		return description;
 	}
 }

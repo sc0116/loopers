@@ -1,14 +1,18 @@
 package com.loopers.domain.point;
 
 import com.loopers.domain.BaseEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
+@Getter
 @Table(name = "points")
 @Entity
 public class Point extends BaseEntity {
 
+	@Column(name = "ref_user_id", nullable = false)
 	private Long userId;
 
 	@Embedded
@@ -30,13 +34,5 @@ public class Point extends BaseEntity {
 
 	public void use(final Long amount) {
 		this.amount.use(amount);
-	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public Amount getAmount() {
-		return amount;
 	}
 }

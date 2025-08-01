@@ -79,7 +79,7 @@ class UserServiceIntegrationTest {
 			final Long invalidUserId = -1L;
 
 			final CoreException actual = assertThrows(CoreException.class, () -> {
-				sut.get(invalidUserId);
+				sut.getUser(new UserCommand.GetUser(invalidUserId));
 			});
 
 			assertThat(actual).usingRecursiveComparison()
@@ -91,7 +91,7 @@ class UserServiceIntegrationTest {
 		void returnUserInfo_whenUserAlreadyExists() {
 			final User user = createUser("jjanggu", "jjanggu@gmail.com", "2025-01-01");
 
-			final UserInfo actual = sut.get(user.getId());
+			final UserInfo actual = sut.getUser(new UserCommand.GetUser(user.getId()));
 
 			assertThat(actual).usingRecursiveComparison()
 				.isEqualTo(new UserInfo(

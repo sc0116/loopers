@@ -35,7 +35,6 @@ public class Order extends BaseEntity {
 		if (userId == null) {
 			throw new CoreException(ErrorType.BAD_REQUEST, "회원 ID는 비어있을 수 없습니다.");
 		}
-
 		if (items == null || items.isEmpty()) {
 			throw new CoreException(ErrorType.BAD_REQUEST, "주문 상품은 최소 1개 이상이어야 합니다.");
 		}

@@ -20,18 +20,18 @@ public class LikeRepositoryImpl implements LikeRepository {
 	}
 
 	@Override
-	public boolean exists(final Long userId, final LikeTarget target) {
+	public boolean existsBy(final Long userId, final LikeTarget target) {
 		return likeJpaRepository.existsByUserIdAndTarget(userId, target);
 	}
 
 	@Override
-	public List<Like> findAll(final Long userId, final LikeTarget.TargetType type) {
-		return likeJpaRepository.findAllByUserIdAndTargetType(userId, type);
+	public Optional<Like> findBy(final Long userId, final LikeTarget target) {
+		return likeJpaRepository.findByUserIdAndTarget(userId, target);
 	}
 
 	@Override
-	public Optional<Like> find(final Long userId, final LikeTarget target) {
-		return likeJpaRepository.findByUserIdAndTarget(userId, target);
+	public List<Like> findAllBy(final Long userId, final LikeTarget.TargetType type) {
+		return likeJpaRepository.findAllByUserIdAndTargetType(userId, type);
 	}
 
 	@Override
