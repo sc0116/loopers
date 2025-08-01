@@ -2,6 +2,8 @@ package com.loopers.interfaces.api.user;
 
 import com.loopers.application.user.UserCriteria;
 import com.loopers.application.user.UserResult;
+import com.loopers.domain.user.UserInfo;
+import java.time.LocalDate;
 
 public record UserDto() {
 
@@ -19,21 +21,31 @@ public record UserDto() {
 			}
 		}
 
-		public record GetResponse(
+		public record GetUserResponse(
 			Long id,
 			String loginId,
 			String email,
-			String birthDate,
+			LocalDate birthDate,
 			String gender
 		) {
 
-			public static GetResponse from(final UserResult userResult) {
-				return new GetResponse(
+			public static GetUserResponse from(final UserResult userResult) {
+				return new GetUserResponse(
 					userResult.id(),
 					userResult.loginId(),
 					userResult.email(),
-					userResult.email(),
+					userResult.birthDate(),
 					userResult.gender()
+				);
+			}
+
+			public static GetUserResponse from(final UserInfo userInfo) {
+				return new GetUserResponse(
+					userInfo.id(),
+					userInfo.fetchLoginId(),
+					userInfo.fetchEmail(),
+					userInfo.fetchBirthDate(),
+					userInfo.gender().name()
 				);
 			}
 		}

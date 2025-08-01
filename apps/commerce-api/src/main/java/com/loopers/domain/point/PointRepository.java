@@ -6,7 +6,7 @@ public interface PointRepository {
 
 	Point save(Point point);
 
-	boolean existsByUserId(Long userId);
+	boolean existsBy(Long userId);
 
-	Optional<Point> findByUserId(Long userId);
+	Optional<Point> findBy(Long userId);
 }

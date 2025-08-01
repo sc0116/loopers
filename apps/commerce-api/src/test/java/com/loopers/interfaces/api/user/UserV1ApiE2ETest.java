@@ -1,6 +1,6 @@
 package com.loopers.interfaces.api.user;
 
-import static com.loopers.interfaces.api.user.UserDto.V1.GetResponse;
+import static com.loopers.interfaces.api.user.UserDto.V1.GetUserResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -67,9 +67,9 @@ class UserV1ApiE2ETest {
 				"2025-01-01",
 				Gender.MALE.name()
 			);
-			final ParameterizedTypeReference<ApiResponse<GetResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ParameterizedTypeReference<ApiResponse<GetUserResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<GetResponse>> actual =
+			final ResponseEntity<ApiResponse<GetUserResponse>> actual =
 				testRestTemplate.exchange("/api/v1/users", HttpMethod.POST, new HttpEntity<>(request), responseType);
 
 			assertAll(
@@ -88,9 +88,9 @@ class UserV1ApiE2ETest {
 				"2025-01-01",
 				gender
 			);
-			final ParameterizedTypeReference<ApiResponse<GetResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ParameterizedTypeReference<ApiResponse<GetUserResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<GetResponse>> actual =
+			final ResponseEntity<ApiResponse<GetUserResponse>> actual =
 				testRestTemplate.exchange("/api/v1/users", HttpMethod.POST, new HttpEntity<>(request), responseType);
 
 			assertAll(
@@ -110,9 +110,9 @@ class UserV1ApiE2ETest {
 			final User user = createUser("jjanggu", "jjanggu@gmail.com", "2025-01-01");
 			final HttpHeaders headers = new HttpHeaders();
 			headers.set("X-USER-ID", user.getId().toString());
-			final ParameterizedTypeReference<ApiResponse<GetResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ParameterizedTypeReference<ApiResponse<GetUserResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<GetResponse>> actual =
+			final ResponseEntity<ApiResponse<GetUserResponse>> actual =
 				testRestTemplate.exchange("/api/v1/users/me", HttpMethod.GET, new HttpEntity<>(headers), responseType);
 
 			assertAll(
@@ -126,9 +126,9 @@ class UserV1ApiE2ETest {
 		void throwsNotFoundException_whenUserNonExists() {
 			final HttpHeaders headers = new HttpHeaders();
 			headers.set("X-USER-ID", "-1");
-			final ParameterizedTypeReference<ApiResponse<GetResponse>> responseType = new ParameterizedTypeReference<>() {};
+			final ParameterizedTypeReference<ApiResponse<GetUserResponse>> responseType = new ParameterizedTypeReference<>() {};
 
-			final ResponseEntity<ApiResponse<GetResponse>> actual =
+			final ResponseEntity<ApiResponse<GetUserResponse>> actual =
 				testRestTemplate.exchange("/api/v1/users/me", HttpMethod.GET, new HttpEntity<>(headers), responseType);
 
 			assertAll(

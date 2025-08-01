@@ -7,11 +7,7 @@ public record PointInfo(
 ) {
 
 	public static PointInfo from(final Point point) {
-		return new PointInfo(
-			point.getId(),
-			point.getUserId(),
-			point.getAmount()
-		);
+		return new PointInfo(point.getId(), point.getUserId(), point.getAmount());
 	}
 
 	public Long fetchAmount() {
