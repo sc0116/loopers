@@ -1,6 +1,5 @@
 package com.loopers.application.order;
 
-import com.loopers.domain.order.OrderCommand;
 import com.loopers.domain.order.OrderInfo;
 import com.loopers.domain.order.OrderService;
 import com.loopers.domain.point.PointCommand;
@@ -28,12 +27,11 @@ public class OrderFacade {
 	public void order(final OrderCriteria.Order criteria) {
 		final List<ProductInfo> productInfos = productService.getProducts(criteria.toProductCommand());
 
-		final OrderCommand.Order command = criteria.toCommand(productInfos);
-		final OrderInfo orderInfo = orderService.order(command);
+		final OrderInfo orderInfo = orderService.order(criteria.toOrderCommand(productInfos));
 
 		pointService.use(new PointCommand.Use(criteria.userId(), orderInfo.totalPrice().longValue()));
 
-		command.items().forEach(item ->
+		orderInfo.items().forEach(item ->
 			productStockService.decrement(new ProductStockCommand.Decrement(item.productId(), item.quantity()))
 		);
 	}
